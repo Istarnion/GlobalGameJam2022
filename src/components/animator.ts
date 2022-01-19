@@ -5,6 +5,13 @@ import { images } from "../loader";
 import { Animation, Sprite } from "../sprite";
 import { time } from "../timer";
 
+/**
+ * The Animator component handles animating and rendering
+ * sprites. As the {@link Sprite} definitions can contain
+ * several animations, you can play them as needed by
+ * calling `play()` on the animator with the name of the
+ * animation.
+ */
 export default class Animator extends Component {
     xOffset = 0;
     yOffset = 0;
@@ -44,7 +51,7 @@ export default class Animator extends Component {
     }
 
     override update(): void {
-        const deltaTimeMillis = time.deltaTime * 1000;
+        const deltaTimeMillis = time.deltaTime() * 1000;
 
         this.frameTime += deltaTimeMillis;
         while(this.frameTime >= this.currentAnim.framedurations[this.frameIndex]) {

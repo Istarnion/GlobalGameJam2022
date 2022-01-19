@@ -71,7 +71,8 @@ export default class Game {
         this.loopTimerID = window.requestAnimationFrame(() => this.update());
         const now = performance.now();
         const deltaTime = (now - this.lastFrameTime) / 1000;
-        time.deltaTime = deltaTime;
+        time.dt = deltaTime;
+        time.time += deltaTime;
 
         // Only update the top state
         this.states[this.states.length-1].update();

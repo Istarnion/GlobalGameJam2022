@@ -19,8 +19,9 @@ export default class Mover extends Component {
     }
 
     override update(): void {
-        this.moveX(this.dx * time.deltaTime);
-        this.moveY(this.dy * time.deltaTime);
+        const dt = time.deltaTime();
+        this.moveX(this.dx * dt);
+        this.moveY(this.dy * dt);
     }
 
     moveX(amount: number): void {
