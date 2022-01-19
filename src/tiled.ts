@@ -1,5 +1,15 @@
+/**
+ * This file contains type definitions used to make sense of
+ * loaded JSON files exported from the Tiled map editor.
+ * The {@link Tilemap} class takes data on this format and
+ * represents an actual tile map in game.
+ */
+
 import { loadJSON } from "./loader";
 
+/**
+ * Interface for the Tiled map editor tile layer definitions
+ */
 export interface TiledTileLayer {
     name: string;
     x: number;
@@ -12,6 +22,9 @@ export interface TiledTileLayer {
     data: Array<number>;
 }
 
+/**
+ * Interface for the Tiled map editor tileset definitions
+ */
 export interface TiledTileSet {
     name: string;
     image: string;
@@ -25,6 +38,9 @@ export interface TiledTileSet {
     tileheight: number;
 }
 
+/**
+ * Interface for the Tiled map editor JSON file format
+ */
 export interface TiledMap {
     type: string;
     version: number;
