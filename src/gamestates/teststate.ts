@@ -3,6 +3,7 @@ import Animator from "../components/animator";
 import Mover from "../components/mover";
 import Player from "../components/player";
 import Tilemap from "../components/tilemap";
+import WorldText from "../components/worldtext";
 import Entity from "../entity";
 import GameState from "../gamestate";
 import gfx from "../graphics";
@@ -28,6 +29,9 @@ export class TestState extends GameState {
         this.player.add(new Animator(sprites.testcharacter, this.player));
         this.player.add(new Mover(this.player));
         this.player.add(new Player(this.player));
+
+        const text = this.world.addEntity(32, 96);
+        text.add(new WorldText('This is a text component', fonts['express_mono'], text));
     }
 
     override update(): void {
@@ -38,7 +42,5 @@ export class TestState extends GameState {
         const tilemap = this.map.first(ComponentType.TILEMAP) as Tilemap;
         tilemap.setViewport(this.cameraX, this.cameraY, gfx.width, gfx.height);
         this.world.render();
-
-        fonts['express_mono'].drawText("Tpis is a test string", 32, 64);
     }
 }

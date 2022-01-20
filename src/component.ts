@@ -7,6 +7,7 @@ export enum ComponentType {
     ANIMATOR,
     COLLIDER,
     MOVER,
+    TEXT,
     PLAYER,
     NUM_TYPES
 }
