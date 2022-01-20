@@ -1,9 +1,11 @@
 import { Sprite } from "./sprite";
+import SpriteFont from "./spritefont";
 import { TiledMap } from "./tiled";
 
 export const images: Record<string, HTMLImageElement> = {};
 export const maps: Record<string, TiledMap> = {};
 export const sprites: Record<string, Sprite> = {};
+export const fonts: Record<string, SpriteFont> = {};
 
 /**
  * Load an image.
@@ -95,5 +97,34 @@ export function loadMap(name: string, mapPath: string): Promise<TiledMap> {
         .catch(() => {
             reject();
         });
+    });
+}
+
+export function loadFont(name: string, fontPath:string, texturePath: string): Promise<SpriteFont> {
+    return new Promise((resolve, reject) => {
+
+        const promises = [
+            loadImage('font_'+name, texturePath),
+            fetch(fontPath)
+        ];
+
+        Promise.all(promises)
+        .then((responses: (HTMLImageElement | Response)[]) => {
+            const texture = responses[0] as HTMLImageElement;
+            (responses[1] as Response).text()
+            .then((fontDef: string) => {
+                const font = new SpriteFont(texture, fontDef);
+                fonts[name] = font;
+                resolve(font);
+            })
+            .catch((reason: any) => {
+                console.error(`Failed to fetch font definition text file for ${name}: ${reason}`);
+                reject();
+            })
+        })
+        .catch((reason: any) => {
+            console.error('Failed to fetch font files.');
+            reject();
+        })
     });
 }
