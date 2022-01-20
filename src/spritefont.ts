@@ -1,4 +1,3 @@
-import { Rect } from "./calc";
 import gfx from "./graphics";
 
 class CharInfo {
@@ -29,7 +28,8 @@ class CharInfo {
 export default class SpriteFont {
     texture: HTMLImageElement;
     characters: Record<number, CharInfo>;
-    size = 0;       // The "size" of the font. Used for line height
+    size = 0;       // The "size" of the font.
+    lineHeight = 0; // The distance between baselines
     spaceWidth = 0; // The width of a space character
     ascent = 0;     // Max height above the baseline
     descent = 0;    // Max descent under the baseline
@@ -122,22 +122,27 @@ export default class SpriteFont {
         }
 
         for(let i=0; i<charCount; ++i) {
-            const character = new CharInfo(advance[i],
-                                           offsetX[i], offsetY[i],
-                                           width[i], height[i],
-                                           packX[i], packY[i]);
-            this.characters[chars[i]] = character;
+            const char = chars[i];
+            if(char === 32) {
+                this.spaceWidth = advance[i];
+            }
+            else {
+                const character = new CharInfo(advance[i],
+                                               offsetX[i], offsetY[i],
+                                               width[i], height[i],
+                                               packX[i], packY[i]);
+                this.characters[chars[i]] = character;
+            }
         }
 
         for(let i=0; i<kerningCount; i+=3) {
-            const char = kerning[i];
-            const next = kerning[i+1];
+            const left = kerning[i];
+            const right = kerning[i+1];
             const offset = kerning[i+2];
-            this.characters[char].kerning[next] = offset;
+            this.characters[right].kerning[left] = offset;
         }
 
-        // TEMP!!
-        this.spaceWidth = this.size;
+        this.lineHeight = (this.ascent - this.descent) + 1;
     }
 
     /**
@@ -156,33 +161,38 @@ export default class SpriteFont {
         let y = baseline;
 
         let charsOnLine = 0;
-        for(const char of text) {
-            if(char === ' ') {
+        const codepoints = Array.from(text);
+        for(let i=0; i<codepoints.length; ++i) {
+            const codepoint = codepoints[i];
+            if(codepoint === ' ') {
                 x += this.spaceWidth;
                 ++charsOnLine;
             }
-            else if(char === '\n') {
+            else if(codepoint === '\n') {
                 x = left;
-                y += this.size;
+                y += this.lineHeight;
                 charsOnLine = 0;
             }
-            else if(char === '\t') {
+            else if(codepoint === '\t') {
                 const spacesToFill = 4 - (charsOnLine % 4);
                 x += spacesToFill * this.spaceWidth;
                 charsOnLine += spacesToFill;
             }
             else {
-                const codepoint = char.codePointAt(0) as number;
-                const charInfo = this.characters[codepoint];
+                const charInfo = this.characters[codepoint.codePointAt(0) as number];
                 if(charInfo) {
-                    // TODO(istarnion): kerning!
+                    const prev = (i-1 >= 0) ? (codepoints[i-1].codePointAt(0) as number) : 0;
+
+                    const kerning = (prev in charInfo.kerning) ? charInfo.kerning[prev] : 0;
+                    x += kerning;
+
                     gfx.drawImage(this.texture,
                                   charInfo.packX, charInfo.packY, charInfo.width, charInfo.height,
                                   x + charInfo.offsetX, y+charInfo.offsetY, charInfo.width, charInfo.height);
                     x += charInfo.advance;
                 }
                 else {
-                    console.warn(`Trying to render unsupported character ${char}`);
+                    console.warn(`Trying to render unsupported character ${codepoint}`);
                 }
             }
         }

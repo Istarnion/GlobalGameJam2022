@@ -1,6 +1,6 @@
 import Game from "./game";
 import { TestState } from "./gamestates/teststate";
-import { loadImages, loadSprites, loadMap } from "./loader";
+import { loadImages, loadSprites, loadMap, loadFont } from "./loader";
 
 /**
  * Global game object. Through this we can
@@ -16,7 +16,8 @@ const preloads = [
         ['testcharacter', './res/testcharacter.png']
     ]),
     loadMap('testmap', './res/testmap.json'),
-    loadSprites('./res/sprites.json')
+    loadSprites('./res/sprites.json'),
+    loadFont('express_mono', './licenced_res/express_mono/metrics.txt', './licenced_res/express_mono/atlas32.png')
 ];
 
 Promise.all(preloads).then((loadedAssets) => {

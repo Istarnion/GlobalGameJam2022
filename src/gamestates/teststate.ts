@@ -7,7 +7,7 @@ import Entity from "../entity";
 import GameState from "../gamestate";
 import gfx from "../graphics";
 import input from "../input";
-import { maps, sprites } from "../loader";
+import { fonts, maps, sprites } from "../loader";
 import World from "../world";
 
 export class TestState extends GameState {
@@ -38,5 +38,7 @@ export class TestState extends GameState {
         const tilemap = this.map.first(ComponentType.TILEMAP) as Tilemap;
         tilemap.setViewport(this.cameraX, this.cameraY, gfx.width, gfx.height);
         this.world.render();
+
+        fonts['express_mono'].drawText("Tpis is a test string", 32, 64);
     }
 }
