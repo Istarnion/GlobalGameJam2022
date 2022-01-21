@@ -35,7 +35,7 @@ export default class SpriteFont {
     descent = 0;    // Max descent under the baseline
 
     constructor(texture: HTMLImageElement, definition: string) {
-        this.texture = texture;
+        this.texture = gfx.tintTexture(texture, 'red');
         this.characters = {};
 
         const lines: string[] = definition.split('\n');

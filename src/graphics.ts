@@ -8,7 +8,8 @@ type Graphics = CanvasRenderingContext2D & {
     height: number,
     setGameSize: Function,
     clear: Function,
-    drawLine: Function
+    drawLine: Function,
+    tintTexture: Function
 };
 
 const gfx = canvas.getContext("2d") as Graphics;
@@ -92,5 +93,30 @@ gfx.drawLine = function(xFrom: number, yFrom: number, xTo: number, yTo: number):
     this.closePath();
     this.stroke();
 }
+
+// FIXME: This currently does _not_ tint the input texture! Rather, the input
+// is used as a mask which is filled with the tint color. This is OK for the
+// font textures, but if we ever need to _actually tint a texture_ we need to
+// fix this!
+gfx.tintTexture = function(input: CanvasImageSource, tint: string): HTMLImageElement {
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = input.width as number;
+    tempCanvas.height = input.height as number;
+    const tempGfx = tempCanvas.getContext('2d') as CanvasRenderingContext2D;
+
+    tempGfx.drawImage(input, 0, 0);
+    tempGfx.globalCompositeOperation = 'source-in';
+    tempGfx.fillStyle = tint;
+    tempGfx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+    const dataURL = tempCanvas.toDataURL();
+    const output = new Image(tempCanvas.width, tempCanvas.height);
+    output.src = dataURL;
+
+    tempGfx.globalCompositeOperation = 'source-in';
+
+    return output;
+}
+
 
 export default gfx;
