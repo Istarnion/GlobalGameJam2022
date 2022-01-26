@@ -35,7 +35,7 @@ export default class SpriteFont {
     descent = 0;    // Max descent under the baseline
 
     constructor(texture: HTMLImageElement, definition: string) {
-        this.texture = gfx.tintTexture(texture, 'red');
+        this.texture = gfx.tintTexture(texture, '#e6d69c');
         this.characters = {};
 
         const lines: string[] = definition.split('\n');
@@ -153,7 +153,47 @@ export default class SpriteFont {
      * @returns The width in pixels of that text
      */
     measureTextWidth(text: string): number {
-        return 0;
+        let longestLineWidth = 0;
+        let currLineWidth = 0;
+
+        let charsOnLine = 0;
+        const codepoints = Array.from(text);
+        for(let i=0; i<codepoints.length; ++i) {
+            const codepoint = codepoints[i];
+            if(codepoint === ' ') {
+                currLineWidth += this.spaceWidth;
+                ++charsOnLine;
+            }
+            else if(codepoint === '\n') {
+                if(currLineWidth > longestLineWidth) {
+                    longestLineWidth = currLineWidth;
+                }
+
+                currLineWidth = 0;
+                charsOnLine = 0;
+            }
+            else if(codepoint === '\t') {
+                const spacesToFill = 4 - (charsOnLine % 4);
+                currLineWidth += spacesToFill * this.spaceWidth;
+                charsOnLine += spacesToFill;
+            }
+            else {
+                const charInfo = this.characters[codepoint.codePointAt(0) as number];
+                if(charInfo) {
+                    const prev = (i-1 >= 0) ? (codepoints[i-1].codePointAt(0) as number) : 0;
+
+                    const kerning = (prev in charInfo.kerning) ? charInfo.kerning[prev] : 0;
+                    currLineWidth += kerning;
+                    currLineWidth += charInfo.advance;
+                }
+            }
+        }
+
+        if(currLineWidth > longestLineWidth) {
+            longestLineWidth = currLineWidth;
+        }
+
+        return longestLineWidth;
     }
 
     drawText(text: string, left: number, baseline: number): void {
