@@ -54,7 +54,7 @@ class InputState {
             }
         });
 
-        window.addEventListener('mousemove', (e) => {
+        gfx.canvas.addEventListener('mousemove', (e) => {
             e.preventDefault();
             const scale = gfx.width / gfx.canvas.clientWidth;
             const clientRect = gfx.canvas.getClientRects()[0];
@@ -63,7 +63,7 @@ class InputState {
             return false;
         });
 
-        window.addEventListener('mousedown', (e) => {
+        gfx.canvas.addEventListener('mousedown', (e) => {
             e.preventDefault();
             if(e.button === 0) {
                 this.mouseButton[0] = true;
@@ -71,7 +71,7 @@ class InputState {
             return false;
         });
 
-        window.addEventListener('mouseup', (e) => {
+        gfx.canvas.addEventListener('mouseup', (e) => {
             e.preventDefault();
             if(e.button === 0) {
                 this.mouseButton[0] = false;
@@ -86,6 +86,30 @@ class InputState {
         }
 
         this.mouseButton[1] = this.mouseButton[0];
+    }
+
+    mouseIsPressed(): boolean {
+        if(this.mouseButton[0]) {
+            return true;
+        }
+
+        return false;
+    }
+
+    mouseIsJustPressed(): boolean {
+        if(this.mouseButton[0] && !this.mouseButton[1]) {
+            return true;
+        }
+
+        return false;
+    }
+
+    mouseIsJustReleased(): boolean {
+        if(!this.mouseButton[0] && this.mouseButton[1]) {
+            return true;
+        }
+
+        return false;
     }
 
     keyIsPressed(...keys: string[]): boolean {
