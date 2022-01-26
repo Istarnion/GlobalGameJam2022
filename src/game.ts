@@ -14,9 +14,11 @@ export default class Game {
 
     readonly states: GameState[];
     currentState?: GameState;
+    shouldCallResume = false;
+    resumeArgs?: any;
 
     constructor(width: number, height: number, initialState: GameState) {
-        gfx.setGameSize(240, 160);
+        gfx.setGameSize(width, height);
         this.lastFrameTime = performance.now();
         this.states = [ initialState ];
     }
@@ -53,6 +55,7 @@ export default class Game {
     pushState(state: GameState, args?: any): void {
         this.states[this.states.length-1].pause();
         this.states.push(state);
+        this.shouldCallResume = false;
         state.start(args);
     }
 
@@ -61,6 +64,8 @@ export default class Game {
      */
     popState(args?: any) {
         this.states.pop()?.end();
+        this.shouldCallResume = true;
+        this.resumeArgs = args;
         this.states[this.states.length-1].resume(args);
     }
 
@@ -73,6 +78,11 @@ export default class Game {
         const deltaTime = (now - this.lastFrameTime) / 1000;
         time.dt = deltaTime;
         time.time += deltaTime;
+
+        if(this.shouldCallResume) {
+            this.shouldCallResume = false;
+            this.states[this.states.length-1].resume(this.resumeArgs);
+        }
 
         // Only update the top state
         this.states[this.states.length-1].update();
