@@ -1,5 +1,41 @@
 export type Vec2 = { x: number, y: number };
 
+export function addVec2(a: Vec2, b: Vec2): Vec2 {
+    return {
+        x: a.x + b.x,
+        y: a.y + b.y
+    };
+}
+
+export function subVec2(a: Vec2, b: Vec2): Vec2 {
+    return {
+        x: a.x - b.x,
+        y: a.y - b.y
+    };
+}
+
+export function mulVec2(a: Vec2, b: Vec2): Vec2 {
+    return {
+        x: a.x * b.x,
+        y: a.y * b.y
+    };
+}
+
+export function divVec2(a: Vec2, b: Vec2): Vec2 {
+    return {
+        x: a.x / b.x,
+        y: a.y / b.y
+    };
+}
+
+export function vec2Magnitude(vec: Vec2): number {
+    return Math.sqrt(vec.x*vec.x + vec.y*vec.y);
+}
+
+export function vec2MagnitudeSquared(vec: Vec2): number {
+    return (vec.x*vec.x + vec.y*vec.y);
+}
+
 export class Rect {
     x: number;
     y: number;
