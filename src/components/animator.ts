@@ -23,7 +23,7 @@ export default class Animator extends Component {
     currentAnim: Animation;
     columns: number;
 
-    constructor(sprite: Sprite, entity: Entity) {
+    constructor(sprite: Sprite, startAnim: string, entity: Entity) {
         super(entity, ComponentType.ANIMATOR);
 
         this.sprite = sprite;
@@ -31,7 +31,7 @@ export default class Animator extends Component {
         console.assert(this.img !== undefined, 'Failed to load image for animation');
         this.columns = (this.sprite.width / this.sprite.frameWidth) | 0;
 
-        this.current = 'idle';
+        this.current = startAnim;
         this.currentAnim = this.sprite.anims[this.current];
         console.log(this.sprite.anims);
     }

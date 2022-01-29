@@ -20,6 +20,7 @@ export default class Player extends Component {
     override awake(): void {
         const collider = this.entity.first(ComponentType.COLLIDER) as Collider;
         collider.debugDraw = true;
+        this.animator.play('stand weapon1')
     }
 
     override update(): void {
