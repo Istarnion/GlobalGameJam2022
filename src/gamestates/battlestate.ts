@@ -26,6 +26,8 @@ export default class BattleState extends GameState {
 
     override update(): void {
         this.world.update();
+        this.cameraX = this.player.position.x;
+        this.cameraY = this.player.position.y;
     }
 
     override draw(): void {
