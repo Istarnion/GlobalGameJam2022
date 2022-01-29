@@ -15,7 +15,6 @@ export default class Collider extends Component {
 
     override render(): void {
         if(this.debugDraw) {
-            console.log("drawing collider");
             gfx.strokeStyle = 'red';
             gfx.drawCircle(this.entity.position.x, this.entity.position.y, this.radius);
         }

@@ -23,24 +23,24 @@ export default class Player extends Component {
     }
 
     override update(): void {
-        this.mover.dx = this.mover.dy = 0;
+        this.mover.inputx = this.mover.inputy = 0;
 
         if(input.keyIsPressed('up', 'w')) {
-            this.mover.dy -= 8;
+            this.mover.inputy -= 1;
         }
         if(input.keyIsPressed('down', 's')) {
-            this.mover.dy += 8;
+            this.mover.inputy += 1;
         }
         if(input.keyIsPressed('left', 'a')) {
-            this.mover.dx -= 8;
+            this.mover.inputx -= 1;
         }
         if(input.keyIsPressed('right', 'd')) {
-            this.mover.dx += 8;
+            this.mover.inputx += 1;
         }
 
-        this.facingRight = this.mover.dx >= 0;
+        this.facingRight = this.mover.inputx >= 0;
 
-        if(Math.abs(this.mover.dx) + Math.abs(this.mover.dy) > 0) {
+        if(Math.abs(this.mover.inputx) + Math.abs(this.mover.inputy) > 0) {
             if(this.facingRight) {
             }
             else {

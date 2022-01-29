@@ -92,6 +92,9 @@ export default class Game {
         // Only update the top state
         this.states[this.states.length-1].update();
 
+        // Clear previous frame
+        gfx.clear();
+
         // Then render all states, bottom to top
         for(const state of this.states) {
             state.draw();

@@ -19,7 +19,7 @@ export default class BattleState extends GameState {
 
     override start(args?: any): void {
         this.player.add(new Collider(64, this.player));
-        this.player.add(new Mover(this.player));
+        this.player.add(new Mover(128, this.player));
         this.player.add(new Player(this.player));
     }
 

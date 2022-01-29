@@ -5,8 +5,9 @@ import { time } from "../timer";
 import Collider from "./collider";
 
 export default class Mover extends Component {
-    dx = 0;
-    dy = 0;
+    inputx = 0;
+    inputy = 0;
+    speed = 64;
     xError = 0;
     yError = 0;
     collider: Collider | undefined;
@@ -14,14 +15,23 @@ export default class Mover extends Component {
     onCollisionX: Function | undefined;
     onCollisionY: Function | undefined;
 
-    constructor(entity: Entity) {
+    constructor(speed: number, entity: Entity) {
         super(entity, ComponentType.MOVER);
+        this.speed = speed;
     }
 
     override update(): void {
         const dt = time.deltaTime();
-        this.moveX(this.dx * dt);
-        this.moveY(this.dy * dt);
+        let dx = this.inputx;
+        let dy = this.inputy;
+        if(Math.abs(dx) + Math.abs(dy) > 1) {
+            const mag = Math.sqrt(dx*dx + dy*dy);
+            dx /= mag;
+            dy /= mag;
+        }
+
+        this.moveX(dx * this.speed * dt);
+        this.moveY(dy * this.speed * dt);
     }
 
     moveX(amount: number): void {
@@ -84,11 +94,9 @@ export default class Mover extends Component {
 
     stopX(): void {
         this.xError = 0;
-        this.dx = 0;
     }
 
     stopY(): void {
         this.xError = 0;
-        this.dx = 0;
     }
 }
