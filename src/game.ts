@@ -17,10 +17,10 @@ export default class Game {
     resumeArgs?: any;
 
     constructor(width: number, height: number) {
+        audio.play("menu")
         gfx.setGameSize(width, height);
         this.lastFrameTime = performance.now();
     }
-
     /**
      * Start the game loop.
      */

@@ -6,7 +6,8 @@ class AudioManager {
     constructor() {
         this.clips = {};
 
-        this.load('musicloop', './res/Game_Loop.mp3', true);
+        this.load('menu', './res/audio/music/menu.mp3', true);
+        this.load('pee', './res/audio/sfx/pee.mp3', false);
     }
 
     load(name: string, src: string | string[], loop: boolean, volume = 1): void {
