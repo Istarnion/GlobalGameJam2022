@@ -10,6 +10,7 @@ export enum ComponentType {
     MOVER,
     TEXT,
     PLAYER,
+    UPGRADE,
     NUM_TYPES
 }
 
