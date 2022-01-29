@@ -4,6 +4,7 @@ import World from "./world";
 export enum ComponentType {
     INVALID_TYPE,
     PEAPROJECTILE,
+    ENEMY,
     TILEMAP,
     ANIMATOR,
     COLLIDER,
