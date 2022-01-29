@@ -2,13 +2,11 @@ import Stats from "./stats";
 
 
 export default class UpgradeType {
-    name = "";
-    animation = "";
+    name = "crate";
+    animation = "stand";
     stats: Stats;
 
-    constructor(name: string, animation: string, type: upgrades, value: number) {
-        this.name = name;
-        this.animation = animation;
+    constructor(type: upgrades, value: number) {
         this.stats = this.setStats(type, value);
     }
 

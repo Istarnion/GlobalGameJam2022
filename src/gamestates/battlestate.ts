@@ -1,5 +1,5 @@
 import Entity from "../entity";
-import { createPeaProjectile, createPlayer, createShadowChef, createSlime } from "../factory";
+import { createPeaProjectile, createPlayer, createShadowChef, createSlime, createUpgrade } from "../factory";
 import GameState from "../gamestate";
 import game from "..";
 import { ComponentType } from "../component";
@@ -13,6 +13,7 @@ import { Mask } from "../masks";
 import FadeOut from "./fadeout";
 import FadeIn from "./fadein";
 import gfx from "../graphics";
+import UpgradeArray from "../upgradearray";
 
 export default class BattleState extends GameState {
 
@@ -22,6 +23,7 @@ export default class BattleState extends GameState {
     recordings: Array<Recording> = [];
     shadows: Array<Array<Shadow>> = [];
     currentRecording: Recording;
+    upgradeArray: UpgradeArray;
 
     constructor(currentLevel: number, recordings: Array<Recording>) {
         super();
@@ -31,6 +33,7 @@ export default class BattleState extends GameState {
         this.currentLevel = currentLevel;
         this.recordings = recordings;
         this.currentRecording = new Recording();
+        this.upgradeArray = new UpgradeArray();
 
         if(currentLevel === 0) {
             createSlime(0, -32, this.world);
@@ -56,6 +59,8 @@ export default class BattleState extends GameState {
                 radius -= 32;
             }
         }
+
+        createUpgrade(0, 32, this.upgradeArray.getRandomUpgrade(), this.world);
 
         console.log(currentLevel);
     }

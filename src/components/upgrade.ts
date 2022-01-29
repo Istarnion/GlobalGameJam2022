@@ -24,6 +24,7 @@ export default class Upgrade extends Component {
         if (this.collider.collidesAt(Mask.PLAYER, 0, 0))
         {
             this.apply(this.world.first(ComponentType.PLAYER)?.entity.first(ComponentType.STATS) as EntityStats);
+            this.world.destroyEntity(this.entity);
         }
     }
 
