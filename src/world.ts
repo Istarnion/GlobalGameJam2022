@@ -110,7 +110,6 @@ export default class World {
     }
 
     destroy(comp: Component): void {
-        comp.alive = false;
         const componentsOfSameType = this.components[comp.type - 1];
         for(let i=0; i<componentsOfSameType.length; ++i) {
             if(componentsOfSameType[i] === comp) {

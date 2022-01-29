@@ -8,9 +8,11 @@ import { time } from "../timer";
 export default class PeaProjectile extends Component {
     dx = 0;
     dy = 0;
+    color: string;
 
-    constructor(entity: Entity) {
+    constructor(color: string, entity: Entity) {
         super(entity, ComponentType.PEAPROJECTILE);
+        this.color = color;
         audio.play("pee");
     }
 
@@ -25,7 +27,7 @@ export default class PeaProjectile extends Component {
     }
 
     override render(): void {
-        gfx.fillStyle = 'lime';
+        gfx.fillStyle = this.color;
         gfx.fillCircle(this.entity.position.x, this.entity.position.y, 2);
     }
 }
