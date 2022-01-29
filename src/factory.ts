@@ -1,5 +1,6 @@
 import Animator from "./components/animator";
 import Collider from "./components/collider";
+import Hurtable from "./components/hurtable";
 import Mover from "./components/mover";
 import PeaProjectile from "./components/peaprojectile";
 import Player from "./components/player";
@@ -10,11 +11,11 @@ import World from "./world";
 
 export function createPlayer(x: number, y: number, world: World): Entity {
     const player = world.addEntity(x, y);
-    player.add(new Collider(16, player));
+    const collider = player.add(new Collider(6, Mask.PLAYER, player));
     player.add(new Mover(64, player));
     const animator = player.add(new Animator(sprites['maincharacter'], 'stand weapon1', player));
     animator.xOffset = -16;
-    animator.yOffset = -16;
+    animator.yOffset = -21;
     player.add(new Player(player));
     return player;
 }
@@ -24,5 +25,17 @@ export function createPeaProjectile(x: number, y: number, angle: number, speed: 
     const pea = projectile.add(new PeaProjectile(projectile));
     pea.dx = Math.cos(angle) * speed;
     pea.dy = Math.sin(angle) * speed;
+    projectile.add(new Collider(2, mask, projectile));
+    projectile.add(new Hurtable(null, ~(Mask.PLAYER_PROJECTILE | Mask.ENEMY_PROJECTILE), projectile));
     return projectile;
+}
+
+export function createSlime(x: number, y: number, world: World): Entity {
+    const slime = world.addEntity(x, y);
+    slime.add(new Collider(8, Mask.ENEMY, slime));
+    const animator = slime.add(new Animator(sprites['slime'], 'move', slime));
+    animator.xOffset = -8;
+    animator.yOffset = -8;
+    slime.add(new Hurtable(null, Mask.PLAYER_PROJECTILE, slime));
+    return slime;
 }

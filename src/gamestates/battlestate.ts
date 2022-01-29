@@ -1,13 +1,10 @@
+import Entity from "../entity";
+import { createPlayer, createSlime } from "../factory";
+import GameState from "../gamestate";
 import game from "..";
 import { ComponentType } from "../component";
-import Collider from "../components/collider";
-import Mover from "../components/mover";
 import Player from "../components/player";
-import Entity from "../entity";
-import { createPlayer } from "../factory";
 import FrameRecording from "../framerecording";
-import GameState from "../gamestate";
-import gfx from "../graphics";
 import Recording from "../recording";
 import World from "../world";
 
@@ -27,9 +24,9 @@ export default class BattleState extends GameState {
         this.currentLevel = currentLevel;
         this.recordings = recordings;
         this.currentRecording = new Recording();
-    }
-
-    override start(args?: any): void {
+        createSlime(0, -32, this.world);
+        createSlime(-32, -32, this.world);
+        createSlime(32, -32, this.world);
     }
 
     override update(): void {
