@@ -27,5 +27,4 @@ const preloads: Promise<any>[] = [
 
 Promise.all(preloads).then((loadedAssets) => {
     game.run(new MenuState());
-    game.pushState(new BattleState(0, []));
 });
