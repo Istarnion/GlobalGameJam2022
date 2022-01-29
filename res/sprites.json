@@ -1,0 +1,77 @@
+{
+  "maincharacter": {
+    "image": "maincharacter",
+    "width": 512,
+    "height": 512,
+    "frameWidth": 32,
+    "frameHeight": 32,
+    "anims": {
+      "attack weapon1": {
+        "start": 1,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "attack move weapon1": {
+        "start": 4,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "move weapon1": {
+        "start": 8,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand alternate weapon1": {
+        "start": 17,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand weapon1": {
+        "start": 33,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "death": {
+        "start": 65,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0
+        ]
+      }
+    }
+  }
+}

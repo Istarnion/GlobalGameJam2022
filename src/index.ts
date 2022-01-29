@@ -11,6 +11,10 @@ const game = new Game(800, 600, new BattleState());
 export default game;
 
 const preloads: Promise<any>[] = [
+    loadImages([
+        ['maincharacter', './res/maincharacter.png']
+    ]),
+    loadSprites('./res/sprites.json')
 ];
 
 Promise.all(preloads).then((loadedAssets) => {
