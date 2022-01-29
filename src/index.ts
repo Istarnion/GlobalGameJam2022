@@ -15,7 +15,8 @@ const preloads: Promise<any>[] = [
         ['maincharacter', './res/maincharacter.png'],
         ['slime', './res/slime.png'],
     ]),
-    loadSprites('./res/sprites.json')
+    loadSprites('./res/sprites.json'),
+    loadSprites('./res/sprite_shadow.json')
 ];
 
 Promise.all(preloads).then((loadedAssets) => {

@@ -39,3 +39,11 @@ export function createSlime(x: number, y: number, world: World): Entity {
     slime.add(new Hurtable(null, Mask.PLAYER_PROJECTILE, slime));
     return slime;
 }
+
+export function createShadowChef(x: number, y: number, world: World): Entity {
+    const chef = world.addEntity(x, y);
+    const animator = chef.add(new Animator(sprites['maincharactershadow'], 'stand weapon1', chef));
+    animator.xOffset = -16;
+    animator.yOffset = -21;
+    return chef;
+}
