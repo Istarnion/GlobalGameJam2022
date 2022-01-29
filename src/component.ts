@@ -5,6 +5,7 @@ export enum ComponentType {
     INVALID_TYPE,
     PEAPROJECTILE,
     ENEMY,
+    HURTABLE,
     TILEMAP,
     ANIMATOR,
     COLLIDER,

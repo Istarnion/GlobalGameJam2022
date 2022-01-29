@@ -1,10 +1,6 @@
-import Collider from "../components/collider";
-import Mover from "../components/mover";
-import Player from "../components/player";
 import Entity from "../entity";
-import { createPlayer } from "../factory";
+import { createPlayer, createSlime } from "../factory";
 import GameState from "../gamestate";
-import gfx from "../graphics";
 import World from "../world";
 
 export default class BattleState extends GameState {
@@ -17,9 +13,10 @@ export default class BattleState extends GameState {
 
         this.world = new World();
         this.player = createPlayer(0, 0, this.world);
-    }
 
-    override start(args?: any): void {
+        createSlime(0, -32, this.world);
+        createSlime(-32, -32, this.world);
+        createSlime(32, -32, this.world);
     }
 
     override update(): void {

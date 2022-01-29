@@ -4,13 +4,14 @@ import gfx from "../graphics";
 import { Mask } from "../masks";
 
 export default class Collider extends Component {
-    mask = Mask.NONE;
+    mask: Mask;
     radius: number;
     debugDraw: boolean = false;
 
-    constructor(radius: number, entity: Entity) {
+    constructor(radius: number, mask: Mask, entity: Entity) {
         super(entity, ComponentType.COLLIDER);
         this.radius = radius;
+        this.mask = mask;
     }
 
     override render(): void {
@@ -26,7 +27,7 @@ export default class Collider extends Component {
 
     firstCollisionAt(mask: Mask, xOffset: number, yOffset: number): Collider | null {
         for(const other of this.world.all(ComponentType.COLLIDER) as Collider[]) {
-            if((other.mask & this.mask) !== 0) {
+            if((other.mask & mask) !== 0) {
                 if(this.collidesWithAt(other, xOffset, yOffset)) {
                     return other;
                 }
@@ -39,7 +40,7 @@ export default class Collider extends Component {
     allCollisionsAt(mask: Mask, xOffset: number, yOffset: number): Collider[] {
         const overlappedColliders: Collider[] = [];
         for(const other of this.world.all(ComponentType.COLLIDER) as Collider[]) {
-            if((other.mask & this.mask) !== 0) {
+            if((other.mask & mask) !== 0) {
                 if(this.collidesWithAt(other, xOffset, yOffset)) {
                     overlappedColliders.push(other);
                 }
