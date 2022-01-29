@@ -37,10 +37,11 @@ export default class World {
             for(const comp of compType) {
                 if(comp.active && comp.entity.active) {
                     gfx.save();
-                    const screenPos = this.worldToScreen(comp.entity.position.x, comp.entity.position.y);
-                    gfx.translate(comp.entity.position.x, comp.entity.position.y);
-                    gfx.rotate(comp.entity.rotation);
-                    gfx.translate(-comp.entity.position.x, -comp.entity.position.y);
+                    if(comp.entity.rotation !== 0) {
+                        gfx.translate(comp.entity.position.x, comp.entity.position.y);
+                        gfx.rotate(comp.entity.rotation);
+                        gfx.translate(-comp.entity.position.x, -comp.entity.position.y);
+                    }
                     comp.render();
                     gfx.restore();
                 }
