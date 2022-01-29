@@ -1,5 +1,6 @@
 import { Component, ComponentType } from "../component";
 import Entity from "../entity";
+import gfx from "../graphics";
 import Stats from "../stats";
 import Mover from "./mover";
 
@@ -31,5 +32,13 @@ export default class EntityStats extends Component {
 
     onApply() {
         (this.entity.first(ComponentType.MOVER) as Mover)?.setSpeedModifier(this.stats.speedModifier);
+    }
+    
+    override render(): void {
+        if (this.stats.shield > 0 && !this.entity.first(ComponentType.UPGRADE))
+        {
+            gfx.strokeStyle = "blue";
+            gfx.drawCircle(this.entity.position.x, this.entity.position.y, 8);
+        }
     }
 }

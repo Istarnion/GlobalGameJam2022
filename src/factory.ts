@@ -19,14 +19,23 @@ export function createPlayer(x: number, y: number, world: World): Entity {
     const player = world.addEntity(x, y);
     player.add(new Collider(6, Mask.PLAYER, player));
     player.add(new Mover(64, player));
-    player.add(new EntityStats(player));
+    const entityStats = player.add(new EntityStats(player));
     const animator = player.add(new Animator(sprites['maincharacter'], 'stand weapon1', player));
     animator.xOffset = -16;
     animator.yOffset = -21;
     const p = player.add(new Player(player));
 
     const onPlayerHurt = () => {
-        p.dying = true;
+        if (entityStats.stats.shield > 0)
+        {
+            console.log('Shield: ' + entityStats.stats.shield);
+            entityStats.stats.shield--;
+        }
+        else
+        {
+            console.log('Dying');
+            p.dying = true;
+        }
     };
 
     player.add(new Hurtable(onPlayerHurt, Mask.ENEMY | Mask.ENEMY_PROJECTILE, player));
