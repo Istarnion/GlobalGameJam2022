@@ -15,7 +15,7 @@ export default class FadeOut extends GameState {
     }
 
     override update(): void {
-        this.t = time.deltaTime();
+        this.t += time.deltaTime();
 
         if(this.t >= this.duration) {
             game.popState();

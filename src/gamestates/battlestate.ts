@@ -10,6 +10,8 @@ import World from "../world";
 import Shadow from "../components/shadow";
 import { TAU } from "../calc";
 import { Mask } from "../masks";
+import FadeOut from "./fadeout";
+import FadeIn from "./fadein";
 
 export default class BattleState extends GameState {
 
@@ -94,7 +96,10 @@ export default class BattleState extends GameState {
 
     onNewLevel() {
         this.recordings.push(this.currentRecording);
-        game.popState();
-        game.pushState(new BattleState(++this.currentLevel, this.recordings));
+        game.pushState(new FadeOut(1, () => {
+            game.popState();
+            game.pushState(new BattleState(++this.currentLevel, this.recordings));
+            game.pushState(new FadeIn(1));
+        }));
     }
 }

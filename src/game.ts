@@ -66,7 +66,6 @@ export default class Game {
             this.states.pop()?.end();
             this.shouldCallResume = true;
             this.resumeArgs = args;
-            this.states[this.states.length-1].resume(args);
         }
         else {
             console.error('Trying to pop the last game state of the state stack!');
