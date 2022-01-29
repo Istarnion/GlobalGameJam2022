@@ -40,6 +40,7 @@ export default class Player extends Component {
     animator: Animator;
     weapon: Weapon;
     weaponCooldown = 0;
+    firedWeapon = false;
 
     constructor(entity: Entity) {
         super(entity, ComponentType.PLAYER);
@@ -78,9 +79,11 @@ export default class Player extends Component {
         }
 
         // Shooting
+        this.firedWeapon = false;
         if(this.weaponCooldown <= 0) {
             if(input.mouseIsJustPressed()) {
                 this.weapon.fire(this.entity.position.x, this.entity.position.y, this.entity.rotation);
+                this.firedWeapon = true;
             }
         }
         else {

@@ -1,5 +1,7 @@
 import Game from "./game";
+import GameState from "./gamestate";
 import BattleState from "./gamestates/battlestate";
+import MenuState from "./gamestates/menustate";
 import { loadImages, loadSprites, loadMap, loadFont } from "./loader";
 
 /**
@@ -19,5 +21,6 @@ const preloads: Promise<any>[] = [
 ];
 
 Promise.all(preloads).then((loadedAssets) => {
-    game.run(new BattleState());
+    game.run(new MenuState());
+    game.pushState(new BattleState(0, []));
 });
