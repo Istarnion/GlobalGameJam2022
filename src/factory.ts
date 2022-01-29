@@ -11,7 +11,7 @@ import World from "./world";
 
 export function createPlayer(x: number, y: number, world: World): Entity {
     const player = world.addEntity(x, y);
-    const collider = player.add(new Collider(6, Mask.PLAYER, player));
+    player.add(new Collider(6, Mask.PLAYER, player));
     player.add(new Mover(64, player));
     const animator = player.add(new Animator(sprites['maincharacter'], 'stand weapon1', player));
     animator.xOffset = -16;
@@ -38,4 +38,13 @@ export function createSlime(x: number, y: number, world: World): Entity {
     animator.yOffset = -8;
     slime.add(new Hurtable(null, Mask.PLAYER_PROJECTILE, slime));
     return slime;
+}
+
+export function createShadowChef(x: number, y: number, world: World): Entity {
+    const chef = world.addEntity(x, y);
+    chef.add(new Collider(6, Mask.ENEMY, chef));
+    const animator = chef.add(new Animator(sprites['maincharactershadow'], 'stand weapon1', chef));
+    animator.xOffset = -16;
+    animator.yOffset = -21;
+    return chef;
 }
