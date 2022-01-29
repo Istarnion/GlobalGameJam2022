@@ -12,21 +12,21 @@ export default class Game {
     loopTimerID = 0;
     lastFrameTime: number;
 
-    readonly states: GameState[];
+    readonly states: GameState[] = [];
     currentState?: GameState;
     shouldCallResume = false;
     resumeArgs?: any;
 
-    constructor(width: number, height: number, initialState: GameState) {
+    constructor(width: number, height: number) {
         gfx.setGameSize(width, height);
         this.lastFrameTime = performance.now();
-        this.states = [ initialState ];
     }
 
     /**
      * Start the game loop.
      */
-    run(): void {
+    run(initialState: GameState): void {
+        this.states.push(initialState);
         this.states[this.states.length-1].start();
         this.update();
     }
