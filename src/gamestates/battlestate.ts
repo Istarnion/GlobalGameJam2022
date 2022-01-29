@@ -12,6 +12,7 @@ import { TAU } from "../calc";
 import { Mask } from "../masks";
 import FadeOut from "./fadeout";
 import FadeIn from "./fadein";
+import gfx from "../graphics";
 
 export default class BattleState extends GameState {
 
@@ -60,6 +61,11 @@ export default class BattleState extends GameState {
     }
 
     override update(): void {
+        if(!this.player.active) {
+            game.popState();
+            return;
+        }
+
         for(let i=0; i<this.recordings.length; ++i) {
             const action = this.recordings[i].getNext();
             for(const shadow of this.shadows[i]) {
@@ -91,6 +97,7 @@ export default class BattleState extends GameState {
     }
 
     override draw(): void {
+        gfx.clear("black");
         this.world.render();
     }
 

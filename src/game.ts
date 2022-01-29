@@ -1,5 +1,6 @@
 import audio from './audio';
 import GameState from './gamestate';
+import MenuState from './gamestates/menustate';
 import gfx from './graphics';
 import input from './input';
 import { time } from './timer';
@@ -17,7 +18,6 @@ export default class Game {
     resumeArgs?: any;
 
     constructor(width: number, height: number) {
-        audio.play("menu")
         gfx.setGameSize(width, height);
         this.lastFrameTime = performance.now();
     }
@@ -98,7 +98,7 @@ export default class Game {
         this.states[this.states.length-1].update();
 
         // Clear previous frame
-        gfx.clear();
+        gfx.clear("black");
 
         // Then render all states, bottom to top
         for(const state of this.states) {
