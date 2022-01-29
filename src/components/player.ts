@@ -1,7 +1,9 @@
 import { Component, ComponentType } from "../component";
 import Entity from "../entity";
+import gfx from "../graphics";
 import input from "../input";
 import Animator from "./animator";
+import Collider from "./collider";
 import Mover from "./mover";
 
 export default class Player extends Component {
@@ -13,6 +15,11 @@ export default class Player extends Component {
         super(entity, ComponentType.PLAYER);
         this.mover = this.entity.first(ComponentType.MOVER) as Mover;
         this.animator = this.entity.first(ComponentType.ANIMATOR) as Animator;
+    }
+
+    override awake(): void {
+        const collider = this.entity.first(ComponentType.COLLIDER) as Collider;
+        collider.debugDraw = true;
     }
 
     override update(): void {
@@ -35,14 +42,11 @@ export default class Player extends Component {
 
         if(Math.abs(this.mover.dx) + Math.abs(this.mover.dy) > 0) {
             if(this.facingRight) {
-                this.animator.play('run_right');
             }
             else {
-                this.animator.play('run_left');
             }
         }
         else {
-            this.animator.play('idle');
         }
     }
 }

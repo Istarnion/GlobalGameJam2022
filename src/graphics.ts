@@ -1,3 +1,5 @@
+import { TAU } from "./calc";
+
 const canvas = document.getElementById("game-canvas") as HTMLCanvasElement;
 
 /**
@@ -9,6 +11,8 @@ type Graphics = CanvasRenderingContext2D & {
     setGameSize: Function,
     clear: Function,
     drawLine: Function,
+    drawCircle: Function,
+    fillCircle: Function,
     tintTexture: Function
 };
 
@@ -92,6 +96,20 @@ gfx.drawLine = function(xFrom: number, yFrom: number, xTo: number, yTo: number):
     this.lineTo(xTo, yTo);
     this.closePath();
     this.stroke();
+}
+
+gfx.drawCircle = function(x: number, y: number, radius: number): void {
+    this.beginPath();
+    this.arc(x, y, radius, 0, TAU);
+    this.closePath();
+    this.stroke();
+}
+
+gfx.fillCircle = function(x: number, y: number, radius: number): void {
+    this.beginPath();
+    this.arc(x, y, radius, 0, TAU);
+    this.closePath();
+    this.fill();
 }
 
 // FIXME: This currently does _not_ tint the input texture! Rather, the input

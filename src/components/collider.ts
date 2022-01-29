@@ -1,15 +1,24 @@
-import { Rect } from "../calc";
 import { Component, ComponentType } from "../component";
 import Entity from "../entity";
+import gfx from "../graphics";
 import { Mask } from "../masks";
 
 export default class Collider extends Component {
     mask = Mask.NONE;
     radius: number;
+    debugDraw: boolean = false;
 
     constructor(radius: number, entity: Entity) {
         super(entity, ComponentType.COLLIDER);
         this.radius = radius;
+    }
+
+    override render(): void {
+        if(this.debugDraw) {
+            console.log("drawing collider");
+            gfx.strokeStyle = 'red';
+            gfx.drawCircle(this.entity.position.x, this.entity.position.y, this.radius);
+        }
     }
 
     collidesAt(mask: Mask, xOffset: number, yOffset: number): boolean {
