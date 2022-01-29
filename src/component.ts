@@ -13,6 +13,7 @@ export enum ComponentType {
     TEXT,
     PLAYER,
     UPGRADE,
+    STATS,
     NUM_TYPES
 }
 

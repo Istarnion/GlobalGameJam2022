@@ -10,6 +10,7 @@ export default class Mover extends Component {
     speed = 64;
     xError = 0;
     yError = 0;
+    speedModifier = 1;
     collider: Collider | undefined;
 
     onCollisionX: Function | undefined;
@@ -30,8 +31,8 @@ export default class Mover extends Component {
             dy /= mag;
         }
 
-        this.moveX(dx * this.speed * dt);
-        this.moveY(dy * this.speed * dt);
+        this.moveX(dx * this.speed * this.speedModifier * dt);
+        this.moveY(dy * this.speed * this.speedModifier * dt);
     }
 
     moveX(amount: number): void {
@@ -90,6 +91,10 @@ export default class Mover extends Component {
         else {
             this.entity.position.y += amount;
         }
+    }
+
+    setSpeedModifier(speedModifier: number) {
+        this.speedModifier = speedModifier;
     }
 
     stopX(): void {

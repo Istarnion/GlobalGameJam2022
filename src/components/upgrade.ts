@@ -4,6 +4,7 @@ import { Mask } from "../masks";
 import { PowerUp } from "../powerups/powerup";
 import Animator from "./animator";
 import Collider from "./collider";
+import Stats from "./stats";
 
 
 export default class Upgrade extends Component {
@@ -19,6 +20,9 @@ export default class Upgrade extends Component {
     }
 
     override update(): void {
-        
+        if (this.collider.collidesAt(Mask.PLAYER, 0, 0))
+        {
+            this.powerUp.apply(this.world.first(ComponentType.PLAYER)?.entity.first(ComponentType.STATS) as Stats);
+        }
     }
 }

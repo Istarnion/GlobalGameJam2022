@@ -1,3 +1,5 @@
+import Stats from "../components/stats";
+
 export interface PowerUp {
-    apply(): void;
+    apply(stats: Stats): void;
 }
