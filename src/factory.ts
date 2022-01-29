@@ -1,5 +1,4 @@
 import { TAU } from "./calc";
-import { Component, ComponentType } from "./component";
 import Animator from "./components/animator";
 import Collider from "./components/collider";
 import Enemy from "./components/enemy";
@@ -7,16 +6,20 @@ import Hurtable from "./components/hurtable";
 import Mover from "./components/mover";
 import PeaProjectile from "./components/peaprojectile";
 import Player from "./components/player";
+import Upgrade from "./components/upgrade";
 import Shadow from "./components/shadow";
 import Entity from "./entity";
 import { sprites } from "./loader";
 import { Mask } from "./masks";
+import UpgradeType from "./upgradetype";
 import World from "./world";
+import EntityStats from "./components/entitystats";
 
 export function createPlayer(x: number, y: number, world: World): Entity {
     const player = world.addEntity(x, y);
     player.add(new Collider(6, Mask.PLAYER, player));
     player.add(new Mover(64, player));
+    player.add(new EntityStats(player));
     const animator = player.add(new Animator(sprites['maincharacter'], 'stand weapon1', player));
     animator.xOffset = -16;
     animator.yOffset = -21;
@@ -51,6 +54,17 @@ export function createSlime(x: number, y: number, world: World): Entity {
     slime.add(new Hurtable(null, Mask.PLAYER_PROJECTILE, slime));
     slime.add(new Enemy(slime));
     return slime;
+}
+
+export function createUpgrade(x: number, y:number, upgradeType: UpgradeType, world: World): Entity {
+    const pickup = world.addEntity(x, y);
+    pickup.add(new EntityStats(pickup));
+    const animator = pickup.add(new Animator(sprites[upgradeType.name], upgradeType.animation, pickup));
+    const collider = pickup.add(new Collider(8, Mask.UPGRADE, pickup));x
+    const upgrade = pickup.add(new Upgrade(pickup, upgradeType.stats));
+    animator.xOffset = -8;
+    animator.yOffset = -8;
+    return pickup;
 }
 
 export function createShadowChef(x: number, y: number, world: World): Entity {

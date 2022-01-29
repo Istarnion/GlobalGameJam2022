@@ -12,6 +12,7 @@ import World from "../world";
 import Animator from "./animator";
 import Collider from "./collider";
 import Mover from "./mover";
+import EntityStats from "./entitystats";
 
 interface Weapon {
     world: World;
@@ -38,6 +39,7 @@ export default class Player extends Component {
     mover: Mover;
     animator: Animator;
     weapon: Weapon;
+    entityStats: EntityStats;
     weaponCooldown = 0;
     firedWeapon = false;
     dying = false;
@@ -47,6 +49,7 @@ export default class Player extends Component {
         this.mover = this.entity.first(ComponentType.MOVER) as Mover;
         this.animator = this.entity.first(ComponentType.ANIMATOR) as Animator;
         this.weapon = new PeaShooter(this.world);
+        this.entityStats = this.entity.first(ComponentType.STATS) as EntityStats;
     }
 
     override awake(): void {
