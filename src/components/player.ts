@@ -1,13 +1,17 @@
+import game from "..";
+import { TAU } from "../calc";
 import { Component, ComponentType } from "../component";
 import Entity from "../entity";
+import BattleState from "../gamestates/battlestate";
+import gfx from "../graphics";
 import input from "../input";
 import Animator from "./animator";
+import Collider from "./collider";
 import Mover from "./mover";
 
 export default class Player extends Component {
     mover: Mover;
     animator: Animator;
-    facingRight = true;
 
     constructor(entity: Entity) {
         super(entity, ComponentType.PLAYER);
@@ -15,34 +19,41 @@ export default class Player extends Component {
         this.animator = this.entity.first(ComponentType.ANIMATOR) as Animator;
     }
 
+    override awake(): void {
+        const collider = this.entity.first(ComponentType.COLLIDER) as Collider;
+        collider.debugDraw = true;
+        this.animator.play('stand weapon1')
+    }
+
     override update(): void {
-        this.mover.dx = this.mover.dy = 0;
+        // Mouselook
+        const worldMouse = this.world.screenToWorld(input.mouseX, input.mouseY);
+        const mouseDx = worldMouse[0] - this.entity.position.x;
+        const mouseDy = worldMouse[1] - this.entity.position.y;
+        this.entity.rotation = Math.atan2(mouseDy, mouseDx) + TAU/4;
+
+        // Movement
+        this.mover.inputx = this.mover.inputy = 0;
 
         if(input.keyIsPressed('up', 'w')) {
-            this.mover.dy -= 8;
+            this.mover.inputy -= 1;
         }
         if(input.keyIsPressed('down', 's')) {
-            this.mover.dy += 8;
+            this.mover.inputy += 1;
         }
         if(input.keyIsPressed('left', 'a')) {
-            this.mover.dx -= 8;
+            this.mover.inputx -= 1;
         }
         if(input.keyIsPressed('right', 'd')) {
-            this.mover.dx += 8;
+            this.mover.inputx += 1;
         }
 
-        this.facingRight = this.mover.dx >= 0;
-
-        if(Math.abs(this.mover.dx) + Math.abs(this.mover.dy) > 0) {
-            if(this.facingRight) {
-                this.animator.play('run_right');
-            }
-            else {
-                this.animator.play('run_left');
-            }
+        // Animation
+        if(Math.abs(this.mover.inputx) + Math.abs(this.mover.inputy) > 0) {
+            // walking
         }
         else {
-            this.animator.play('idle');
+            // Standing
         }
     }
 }

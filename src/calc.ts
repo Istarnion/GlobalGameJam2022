@@ -1,3 +1,5 @@
+export const TAU = 2 * Math.PI;
+
 export type Vec2 = { x: number, y: number };
 
 export function addVec2(a: Vec2, b: Vec2): Vec2 {

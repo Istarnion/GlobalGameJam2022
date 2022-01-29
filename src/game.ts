@@ -12,21 +12,20 @@ export default class Game {
     loopTimerID = 0;
     lastFrameTime: number;
 
-    readonly states: GameState[];
-    currentState?: GameState;
+    readonly states: GameState[] = [];
     shouldCallResume = false;
     resumeArgs?: any;
 
-    constructor(width: number, height: number, initialState: GameState) {
+    constructor(width: number, height: number) {
         gfx.setGameSize(width, height);
         this.lastFrameTime = performance.now();
-        this.states = [ initialState ];
     }
 
     /**
      * Start the game loop.
      */
-    run(): void {
+    run(initialState: GameState): void {
+        this.states.push(initialState);
         this.states[this.states.length-1].start();
         this.update();
     }
@@ -62,7 +61,7 @@ export default class Game {
     /**
      * Pop the state stack, calling start again on the previous state
      */
-    popState(args?: any) {
+    popState(args?: any): void {
         if(this.states.length > 1) {
             this.states.pop()?.end();
             this.shouldCallResume = true;
@@ -72,6 +71,13 @@ export default class Game {
         else {
             console.error('Trying to pop the last game state of the state stack!');
         }
+    }
+
+    /**
+     * Return the current state
+     */
+    peekState(): GameState {
+        return this.states[this.states.length-1];
     }
 
     /**
@@ -91,6 +97,9 @@ export default class Game {
 
         // Only update the top state
         this.states[this.states.length-1].update();
+
+        // Clear previous frame
+        gfx.clear();
 
         // Then render all states, bottom to top
         for(const state of this.states) {

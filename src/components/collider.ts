@@ -1,43 +1,23 @@
-import { Rect } from "../calc";
 import { Component, ComponentType } from "../component";
 import Entity from "../entity";
+import gfx from "../graphics";
 import { Mask } from "../masks";
-
-// Used for tilemaps
-export class CollisionGrid {
-    cellWidth: number;
-    cellHeight: number;
-    columns: number;
-    rows: number;
-    data: boolean[];
-
-    constructor(cellWidth: number, cellHeight: number, columns: number, rows: number) {
-        this.cellWidth = cellWidth;
-        this.cellHeight = cellHeight;
-        this.columns = columns;
-        this.rows = rows;
-        this.data = new Array<boolean>(columns * rows);
-        this.data.fill(false);
-    }
-
-    set(x: number, y: number, solid: boolean): void {
-        this.data[x + y * this.columns] = solid;
-    }
-
-    get(x: number, y: number): boolean {
-        return this.data[x + y * this.columns];
-    }
-}
-
-type CollisionShape = Rect | CollisionGrid;
 
 export default class Collider extends Component {
     mask = Mask.NONE;
-    shape: CollisionShape;
+    radius: number;
+    debugDraw: boolean = false;
 
-    constructor(shape: CollisionShape, entity: Entity) {
+    constructor(radius: number, entity: Entity) {
         super(entity, ComponentType.COLLIDER);
-        this.shape = shape;
+        this.radius = radius;
+    }
+
+    override render(): void {
+        if(this.debugDraw) {
+            gfx.strokeStyle = 'red';
+            gfx.drawCircle(this.entity.position.x, this.entity.position.y, this.radius);
+        }
     }
 
     collidesAt(mask: Mask, xOffset: number, yOffset: number): boolean {
@@ -70,39 +50,11 @@ export default class Collider extends Component {
     }
 
     collidesWithAt(collider: Collider, xOffset: number, yOffset: number): boolean {
-        if(this.shape instanceof Rect) {
-            // Create offset rect in world space
-            const us = new Rect(this.entity.position.x + this.shape.x + xOffset,
-                                this.entity.position.y + this.shape.y + yOffset,
-                                this.shape.width, this.shape.height);
+        const dx = (this.entity.position.x + xOffset) - collider.entity.position.x;
+        const dy = (this.entity.position.y + yOffset) - collider.entity.position.y;
 
-            if(collider.shape instanceof Rect) {
-                const them = new Rect(collider.entity.position.x + collider.shape.x,
-                                      collider.entity.position.y + collider.shape.y,
-                                      collider.shape.width, collider.shape.height);
-                return (us.overlaps(them));
-            }
-            else {
-                const grid = collider.shape;
-                const left = Math.floor((us.x-collider.entity.position.x) / grid.cellWidth);
-                const right = left + Math.ceil(us.width / grid.cellWidth);
-                const top = Math.floor((us.y-collider.entity.position.y) / grid.cellHeight);
-                const bottom = top + Math.ceil(us.height / grid.cellHeight);
-
-                for(let y=top; y<=bottom; ++y) {
-                    for(let x=left; x<=right; ++x) {
-                        if(grid.get(x, y)) {
-                            return true;
-                        }
-                    }
-                }
-
-                return false;
-            }
-        }
-        else {
-            console.assert(false, "Checking collision as a grid is not supported.");
-            return false;
-        }
+        const distSquared = dx*dx + dy*dy;
+        const combinedRadius = this.radius + collider.radius;
+        return distSquared <= (combinedRadius*combinedRadius);
     }
 }
