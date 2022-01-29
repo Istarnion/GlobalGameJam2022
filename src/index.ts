@@ -15,9 +15,11 @@ export default game;
 const preloads: Promise<any>[] = [
     loadImages([
         ['maincharacter', './res/maincharacter.png'],
+        ['maincharactershadow', './res/maincharactershadow.png'],
         ['slime', './res/slime.png'],
     ]),
-    loadSprites('./res/sprites.json')
+    loadSprites('./res/sprites.json'),
+    loadSprites('./res/sprites_shadow.json')
 ];
 
 Promise.all(preloads).then((loadedAssets) => {
