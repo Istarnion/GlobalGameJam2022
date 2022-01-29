@@ -1,12 +1,14 @@
 import { Vec2 } from "./calc";
 
 export default class FrameRecording {
-    position: Vec2 = { x: 0, y: 0 }
-    rotation = 0;
+    x: number;
+    y: number;
+    rotation: number;
     shoot = false;
 
-    constructor(pos: Vec2, rot: number, shoot: boolean) {
-        this.position = pos;
+    constructor(x: number, y: number, rot: number, shoot: boolean) {
+        this.x = x;
+        this.y = y;
         this.rotation = rot;
         this.shoot = shoot;
     }

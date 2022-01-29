@@ -28,9 +28,8 @@ class PeaShooter implements Weapon {
     }
 
     fire(x: number, y: number, heading: number): void {
-        heading -= TAU/4;
-        x += Math.cos(heading) * 8;
-        y += Math.sin(heading) * 8;
+        x += Math.cos(heading-TAU/4) * 8;
+        y += Math.sin(heading-TAU/4) * 8;
         createPeaProjectile(x, y, heading, 128, Mask.PLAYER_PROJECTILE, this.world);
     }
 }
