@@ -4,9 +4,11 @@ import Hurtable from "./components/hurtable";
 import Mover from "./components/mover";
 import PeaProjectile from "./components/peaprojectile";
 import Player from "./components/player";
+import Upgrade from "./components/upgrade";
 import Entity from "./entity";
 import { sprites } from "./loader";
 import { Mask } from "./masks";
+import UpgradeType from "./upgradetype";
 import World from "./world";
 
 export function createPlayer(x: number, y: number, world: World): Entity {
@@ -38,4 +40,14 @@ export function createSlime(x: number, y: number, world: World): Entity {
     animator.yOffset = -8;
     slime.add(new Hurtable(null, Mask.PLAYER_PROJECTILE, slime));
     return slime;
+}
+
+export function createUpgrade(x: number, y:number, upgradeType: UpgradeType, world: World): Entity {
+    const pickup = world.addEntity(x, y);
+    const upgrade = pickup.add(new Upgrade(pickup, upgradeType.stats));
+    const collider = pickup.add(new Collider(8, Mask.UPGRADE, pickup));
+    const animator = pickup.add(new Animator(sprites[upgradeType.name], upgradeType.animation, pickup));
+    animator.xOffset = -8;
+    animator.yOffset = -8;
+    return pickup;
 }

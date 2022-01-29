@@ -1,8 +1,4 @@
-import { Component, ComponentType } from "../component";
-import Mover from "./mover";
-
-
-export default class Stats extends Component {
+export default class Stats {
     shield = 0;
     speedModifier = 1;
     projectileSpeedModifier = 1;
@@ -15,8 +11,4 @@ export default class Stats extends Component {
     explosionDelay = 0;
     doubleShotChance = 0;
     explosionRangeModifier = 1;
-
-    onapply() {
-        (this.entity.first(ComponentType.MOVER) as Mover)?.setSpeedModifier(this.speedModifier);
-    }
 }

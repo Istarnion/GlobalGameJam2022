@@ -4,5 +4,6 @@ export enum Mask {
     PLAYER = 1 << 2,
     ENEMY = 1 << 3,
     PLAYER_PROJECTILE = 1 << 4,
-    ENEMY_PROJECTILE = 1 << 5
+    ENEMY_PROJECTILE = 1 << 5,
+    UPGRADE = 1 << 6,
 }
