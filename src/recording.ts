@@ -6,7 +6,8 @@ export default class Recording {
     backwards = false;
 
     add(frameRecording: FrameRecording) {
-        this.recordings.push(frameRecording);
+        if (this.recordings.length < 3600)
+            this.recordings.push(frameRecording);
     }
 
     get(index: number): FrameRecording {
