@@ -4,7 +4,7 @@ export default class UpgradeArray {
     upgradesTypes: Array<UpgradeType> = [];
 
     constructor() {
-        this.upgradesTypes.push(new UpgradeType("Coffe", "", upgrades.speed, 1.2))
+        this.upgradesTypes.push(new UpgradeType(upgrades.speed, 1.2))
     }
 
     getRandomUpgrade(): UpgradeType {
