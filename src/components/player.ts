@@ -2,21 +2,50 @@ import game from "..";
 import { TAU } from "../calc";
 import { Component, ComponentType } from "../component";
 import Entity from "../entity";
+import { createPeaProjectile } from "../factory";
 import BattleState from "../gamestates/battlestate";
 import gfx from "../graphics";
 import input from "../input";
+import { Mask } from "../masks";
+import { time } from "../timer";
+import World from "../world";
 import Animator from "./animator";
 import Collider from "./collider";
 import Mover from "./mover";
 
+interface Weapon {
+    world: World;
+    cooldown: number;
+    fire(x: number, y: number, heading: number): void;
+}
+
+class PeaShooter implements Weapon {
+    world: World;
+    cooldown = 0.1;
+
+    constructor(world: World) {
+        this.world = world;
+    }
+
+    fire(x: number, y: number, heading: number): void {
+        heading -= TAU/4;
+        x += Math.cos(heading) * 8;
+        y += Math.sin(heading) * 8;
+        createPeaProjectile(x, y, heading, 128, Mask.PLAYER_PROJECTILE, this.world);
+    }
+}
+
 export default class Player extends Component {
     mover: Mover;
     animator: Animator;
+    weapon: Weapon;
+    weaponCooldown = 0;
 
     constructor(entity: Entity) {
         super(entity, ComponentType.PLAYER);
         this.mover = this.entity.first(ComponentType.MOVER) as Mover;
         this.animator = this.entity.first(ComponentType.ANIMATOR) as Animator;
+        this.weapon = new PeaShooter(this.world);
     }
 
     override awake(): void {
@@ -48,12 +77,22 @@ export default class Player extends Component {
             this.mover.inputx += 1;
         }
 
-        // Animation
-        if(Math.abs(this.mover.inputx) + Math.abs(this.mover.inputy) > 0) {
-            // walking
+        // Shooting
+        if(this.weaponCooldown <= 0) {
+            if(input.mouseIsJustPressed()) {
+                this.weapon.fire(this.entity.position.x, this.entity.position.y, this.entity.rotation);
+            }
         }
         else {
-            // Standing
+            this.weaponCooldown -= time.deltaTime();
+        }
+
+        // Animation
+        if(Math.abs(this.mover.inputx) + Math.abs(this.mover.inputy) > 0) {
+            this.animator.play('move weapon1')
+        }
+        else {
+            this.animator.play('stand weapon1')
         }
     }
 }
