@@ -14,8 +14,11 @@ export default game;
 
 const preloads: Promise<any>[] = [
     loadImages([
+        ['crate', './res/crate.png'],
+        ['cthulhupotato', './res/cthulhupotato.png'],
         ['maincharacter', './res/maincharacter.png'],
         ['maincharactershadow', './res/maincharactershadow.png'],
+        ['pickups', './res/pickups.png'],
         ['slime', './res/slime.png'],
     ]),
     loadSprites('./res/sprites.json'),

@@ -1,12 +1,30 @@
 {
-  "slime": {
-    "image": "slime",
-    "width": 256,
-    "height": 256,
-    "frameWidth": 16,
-    "frameHeight": 16,
+  "crate": {
+    "image": "crate",
+    "width": 128,
+    "height": 128,
+    "frameWidth": 32,
+    "frameHeight": 32,
     "anims": {
-      "move": {
+      "stand": {
+        "start": 0,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      }
+    }
+  },
+  "cthulhupotato": {
+    "image": "cthulhupotato",
+    "width": 512,
+    "height": 512,
+    "frameWidth": 32,
+    "frameHeight": 32,
+    "anims": {
+      "animation 1": {
         "start": 0,
         "framedurations": [
           100.0,
@@ -217,6 +235,165 @@
       },
       "stand weapon4": {
         "start": 257,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      }
+    }
+  },
+  "pickups": {
+    "image": "pickups",
+    "width": 256,
+    "height": 256,
+    "frameWidth": 16,
+    "frameHeight": 16,
+    "anims": {
+      "stand chili": {
+        "start": 0,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand coffee": {
+        "start": 16,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand melon": {
+        "start": 32,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand carrot": {
+        "start": 48,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand mango": {
+        "start": 64,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand pear": {
+        "start": 80,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand cherry": {
+        "start": 96,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand burger": {
+        "start": 112,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand rottenapple": {
+        "start": 128,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand strawberry": {
+        "start": 144,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand winebottle": {
+        "start": 160,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand mysterystew": {
+        "start": 176,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      }
+    }
+  },
+  "slime": {
+    "image": "slime",
+    "width": 256,
+    "height": 256,
+    "frameWidth": 16,
+    "frameHeight": 16,
+    "anims": {
+      "move": {
+        "start": 0,
         "framedurations": [
           100.0,
           100.0,
