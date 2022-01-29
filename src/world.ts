@@ -1,5 +1,6 @@
 import { Component, ComponentType } from "./component";
 import Entity from "./entity";
+import gfx from "./graphics";
 
 /**
  * Container for a simple entity-component framework.
@@ -9,6 +10,8 @@ import Entity from "./entity";
 export default class World {
     entities = new Array<Entity>();
     components: Array<Array<Component>>;
+    cameraX = 0;
+    cameraY = 0;
 
     constructor() {
         this.components = [];
@@ -28,13 +31,36 @@ export default class World {
     }
 
     render(): void {
+        gfx.save();
+        gfx.translate(gfx.width/2-this.cameraX, gfx.height/2-this.cameraY);
         for(const compType of this.components) {
             for(const comp of compType) {
                 if(comp.active && comp.entity.active) {
+                    gfx.save();
+                    const screenPos = this.worldToScreen(comp.entity.position.x, comp.entity.position.y);
+                    gfx.translate(comp.entity.position.x, comp.entity.position.y);
+                    gfx.rotate(comp.entity.rotation);
+                    gfx.translate(-comp.entity.position.x, -comp.entity.position.y);
                     comp.render();
+                    gfx.restore();
                 }
             }
         }
+        gfx.restore();
+    }
+
+    screenToWorld(x: number, y: number): [number, number] {
+        return [
+            x - gfx.width/2 + this.cameraX,
+            y - gfx.height/2 + this.cameraY
+        ];
+    }
+
+    worldToScreen(x: number, y: number): [number, number] {
+        return [
+            x + gfx.width/2 - this.cameraX,
+            y + gfx.height/2 - this.cameraY
+        ];
     }
 
     addEntity(x: number, y: number): Entity {

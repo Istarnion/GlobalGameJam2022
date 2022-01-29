@@ -6,6 +6,7 @@ export default class Entity {
     active = true;
     world: World;
     position: Vec2 = { x: 0, y: 0 };
+    rotation = 0; // In radians!
     visible = true;
     components: Array<Component> = [];
 

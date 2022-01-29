@@ -13,7 +13,6 @@ export default class Game {
     lastFrameTime: number;
 
     readonly states: GameState[] = [];
-    currentState?: GameState;
     shouldCallResume = false;
     resumeArgs?: any;
 
@@ -62,7 +61,7 @@ export default class Game {
     /**
      * Pop the state stack, calling start again on the previous state
      */
-    popState(args?: any) {
+    popState(args?: any): void {
         if(this.states.length > 1) {
             this.states.pop()?.end();
             this.shouldCallResume = true;
@@ -72,6 +71,13 @@ export default class Game {
         else {
             console.error('Trying to pop the last game state of the state stack!');
         }
+    }
+
+    /**
+     * Return the current state
+     */
+    peekState(): GameState {
+        return this.states[this.states.length-1];
     }
 
     /**

@@ -11,8 +11,6 @@ export default class BattleState extends GameState {
 
     world: World;
     player: Entity;
-    cameraX = 0;
-    cameraY = 0;
 
     constructor() {
         super();
@@ -26,14 +24,11 @@ export default class BattleState extends GameState {
 
     override update(): void {
         this.world.update();
-        this.cameraX = this.player.position.x;
-        this.cameraY = this.player.position.y;
+        this.world.cameraX = this.player.position.x;
+        this.world.cameraY = this.player.position.y;
     }
 
     override draw(): void {
-        gfx.save();
-        gfx.translate(gfx.width/2-this.cameraX, gfx.height/2-this.cameraY);
         this.world.render();
-        gfx.restore();
     }
 }
