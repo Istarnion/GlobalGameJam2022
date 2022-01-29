@@ -19,7 +19,6 @@ export enum ComponentType {
 export class Component {
     type = ComponentType.INVALID_TYPE;
     active = true;
-    alive = true;
     entity: Entity;
 
     constructor(entity: Entity, type: ComponentType) {

@@ -6,20 +6,20 @@ import Collider from "./collider";
 export default class Hurtable extends Component {
     hurtBy: Mask;
     collider: Collider;
-    onCollision: Function | null;
+    onHurt: Function | null;
 
-    constructor(onCollision: Function | null, hurtBy: Mask, entity: Entity) {
+    constructor(onHurt: Function | null, hurtBy: Mask, entity: Entity) {
         super(entity, ComponentType.HURTABLE);
         this.hurtBy = hurtBy;
-        this.onCollision = onCollision;
+        this.onHurt = onHurt;
 
         this.collider = this.entity.first(ComponentType.COLLIDER) as Collider;
     }
 
     override update(): void {
         if(this.collider.collidesAt(this.hurtBy, 0, 0)) {
-            if(this.onCollision) {
-                this.onCollision
+            if(this.onHurt) {
+                this.onHurt();
             }
             else {
                 this.world.destroyEntity(this.entity);

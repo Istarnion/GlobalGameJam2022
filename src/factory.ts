@@ -20,8 +20,13 @@ export function createPlayer(x: number, y: number, world: World): Entity {
     const animator = player.add(new Animator(sprites['maincharacter'], 'stand weapon1', player));
     animator.xOffset = -16;
     animator.yOffset = -21;
-    player.add(new Player(player));
-    player.add(new Hurtable(null, Mask.ENEMY | Mask.ENEMY_PROJECTILE, player));
+    const p = player.add(new Player(player));
+
+    const onPlayerHurt = () => {
+        p.dying = true;
+    };
+
+    player.add(new Hurtable(onPlayerHurt, Mask.ENEMY | Mask.ENEMY_PROJECTILE, player));
     return player;
 }
 
