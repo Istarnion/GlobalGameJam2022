@@ -42,6 +42,7 @@ export default class Player extends Component {
     entityStats: EntityStats;
     weaponCooldown = 0;
     firedWeapon = false;
+    dying = false;
 
     constructor(entity: Entity) {
         super(entity, ComponentType.PLAYER);
@@ -57,46 +58,55 @@ export default class Player extends Component {
     }
 
     override update(): void {
-        // Mouselook
-        const worldMouse = this.world.screenToWorld(input.mouseX, input.mouseY);
-        const mouseDx = worldMouse[0] - this.entity.position.x;
-        const mouseDy = worldMouse[1] - this.entity.position.y;
-        this.entity.rotation = Math.atan2(mouseDy, mouseDx) + TAU/4;
+        if(!this.dying) {
+            // Mouselook
+            const worldMouse = this.world.screenToWorld(input.mouseX, input.mouseY);
+            const mouseDx = worldMouse[0] - this.entity.position.x;
+            const mouseDy = worldMouse[1] - this.entity.position.y;
+            this.entity.rotation = Math.atan2(mouseDy, mouseDx) + TAU/4;
 
-        // Movement
-        this.mover.inputx = this.mover.inputy = 0;
+            // Movement
+            this.mover.inputx = this.mover.inputy = 0;
 
-        if(input.keyIsPressed('up', 'w')) {
-            this.mover.inputy -= 1;
-        }
-        if(input.keyIsPressed('down', 's')) {
-            this.mover.inputy += 1;
-        }
-        if(input.keyIsPressed('left', 'a')) {
-            this.mover.inputx -= 1;
-        }
-        if(input.keyIsPressed('right', 'd')) {
-            this.mover.inputx += 1;
-        }
+            if(input.keyIsPressed('up', 'w')) {
+                this.mover.inputy -= 1;
+            }
+            if(input.keyIsPressed('down', 's')) {
+                this.mover.inputy += 1;
+            }
+            if(input.keyIsPressed('left', 'a')) {
+                this.mover.inputx -= 1;
+            }
+            if(input.keyIsPressed('right', 'd')) {
+                this.mover.inputx += 1;
+            }
 
-        // Shooting
-        this.firedWeapon = false;
-        if(this.weaponCooldown <= 0) {
-            if(input.mouseIsJustPressed()) {
-                this.weapon.fire(this.entity.position.x, this.entity.position.y, this.entity.rotation);
-                this.firedWeapon = true;
+            // Shooting
+            this.firedWeapon = false;
+            if(this.weaponCooldown <= 0) {
+                if(input.mouseIsJustPressed()) {
+                    this.weapon.fire(this.entity.position.x, this.entity.position.y, this.entity.rotation);
+                    this.firedWeapon = true;
+                }
+            }
+            else {
+                this.weaponCooldown -= time.deltaTime();
+            }
+
+            // Animation
+            if(Math.abs(this.mover.inputx) + Math.abs(this.mover.inputy) > 0) {
+                this.animator.play('move weapon1')
+            }
+            else {
+                this.animator.play('stand weapon1')
             }
         }
         else {
-            this.weaponCooldown -= time.deltaTime();
-        }
-
-        // Animation
-        if(Math.abs(this.mover.inputx) + Math.abs(this.mover.inputy) > 0) {
-            this.animator.play('move weapon1')
-        }
-        else {
-            this.animator.play('stand weapon1')
+            this.mover.inputx = this.mover.inputy = 0;
+            this.animator.play('death');
+            if(this.animator.frameIndex === 2 && this.animator.frameTime >= 50) {
+                this.world.destroyEntity(this.entity);
+            }
         }
     }
 }
