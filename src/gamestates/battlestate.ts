@@ -2,6 +2,7 @@ import Collider from "../components/collider";
 import Mover from "../components/mover";
 import Player from "../components/player";
 import Entity from "../entity";
+import { createPlayer } from "../factory";
 import GameState from "../gamestate";
 import World from "../world";
 
@@ -14,13 +15,10 @@ export default class BattleState extends GameState {
         super();
 
         this.world = new World();
-        this.player = this.world.addEntity(0, 0);
+        this.player = createPlayer(0, 0, this.world);
     }
 
     override start(args?: any): void {
-        this.player.add(new Collider(64, this.player));
-        this.player.add(new Mover(128, this.player));
-        this.player.add(new Player(this.player));
     }
 
     override update(): void {
