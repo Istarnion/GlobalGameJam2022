@@ -33,6 +33,10 @@ export default class World {
     render(): void {
         gfx.save();
         gfx.translate(gfx.width/2-this.cameraX, gfx.height/2-this.cameraY);
+
+        gfx.strokeStyle = 'white';
+        gfx.drawCircle(0, 0, 64);
+
         for(const compType of this.components) {
             for(const comp of compType) {
                 if(comp.active && comp.entity.active) {

@@ -33,7 +33,6 @@ export default class Animator extends Component {
 
         this.current = startAnim;
         this.currentAnim = this.sprite.anims[this.current];
-        console.log(this.sprite.anims);
     }
 
     play(animName: string): void {
