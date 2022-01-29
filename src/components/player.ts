@@ -2,9 +2,11 @@ import game from "..";
 import { TAU } from "../calc";
 import { Component, ComponentType } from "../component";
 import Entity from "../entity";
+import { createPeaProjectile } from "../factory";
 import BattleState from "../gamestates/battlestate";
 import gfx from "../graphics";
 import input from "../input";
+import { Mask } from "../masks";
 import Animator from "./animator";
 import Collider from "./collider";
 import Mover from "./mover";
@@ -46,6 +48,11 @@ export default class Player extends Component {
         }
         if(input.keyIsPressed('right', 'd')) {
             this.mover.inputx += 1;
+        }
+
+        // Shooting
+        if(input.mouseIsJustPressed()) {
+            createPeaProjectile(this.entity.position.x, this.entity.position.y, this.entity.rotation-TAU/4, 128, Mask.PLAYER_PROJECTILE, this.world);
         }
 
         // Animation
