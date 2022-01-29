@@ -1,0 +1,211 @@
+{
+  "maincharactershadow": {
+    "image": "maincharactershadow",
+    "width": 512,
+    "height": 768,
+    "frameWidth": 32,
+    "frameHeight": 32,
+    "anims": {
+      "attack weapon1": {
+        "start": 1,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "attack move weapon1": {
+        "start": 4,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "move weapon1": {
+        "start": 8,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand alternate weapon1": {
+        "start": 17,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand weapon1": {
+        "start": 33,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "death": {
+        "start": 65,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "attack weapon2": {
+        "start": 97,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "attack move weapon2": {
+        "start": 101,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "move weapon2": {
+        "start": 113,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand alternate weapon2": {
+        "start": 129,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand weapon2": {
+        "start": 117,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "attack weapon3": {
+        "start": 161,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "attack move weapon3": {
+        "start": 165,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand alternate weapon3": {
+        "start": 177,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand weapon3": {
+        "start": 169,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "move weapon3": {
+        "start": 194,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "attack weapon4": {
+        "start": 225,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "move weapon4": {
+        "start": 241,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
+      "stand weapon4": {
+        "start": 257,
+        "framedurations": [
+          100.0,
+          100.0,
+          100.0,
+          100.0
+        ]
+      }
+    }
+  }
+}

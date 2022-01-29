@@ -1,5 +1,6 @@
 import audio from './audio';
 import GameState from './gamestate';
+import MenuState from './gamestates/menustate';
 import gfx from './graphics';
 import input from './input';
 import { time } from './timer';
@@ -20,7 +21,6 @@ export default class Game {
         gfx.setGameSize(width, height);
         this.lastFrameTime = performance.now();
     }
-
     /**
      * Start the game loop.
      */
@@ -66,7 +66,6 @@ export default class Game {
             this.states.pop()?.end();
             this.shouldCallResume = true;
             this.resumeArgs = args;
-            this.states[this.states.length-1].resume(args);
         }
         else {
             console.error('Trying to pop the last game state of the state stack!');
@@ -99,7 +98,7 @@ export default class Game {
         this.states[this.states.length-1].update();
 
         // Clear previous frame
-        gfx.clear();
+        gfx.clear("black");
 
         // Then render all states, bottom to top
         for(const state of this.states) {

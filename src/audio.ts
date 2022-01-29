@@ -6,7 +6,9 @@ class AudioManager {
     constructor() {
         this.clips = {};
 
-        this.load('musicloop', './res/Game_Loop.mp3', true);
+        this.load('menu', './res/audio/music/menu.mp3', true);
+        this.load('pee', './res/audio/sfx/pee.mp3', false);
+        this.load('battle', './res/audio/music/battle.mp3', true);
     }
 
     load(name: string, src: string | string[], loop: boolean, volume = 1): void {
@@ -23,6 +25,15 @@ class AudioManager {
         const clip = this.clips[name];
         clip.volume(volume);
         this.clips[name].play();
+    }
+
+
+    fadeOut(name: string, duration: number) {
+        let sound = this.clips[name];
+        sound.fade(sound.volume(), 0, duration);
+        sound.on('fade', () => {
+            sound.stop();
+        });
     }
 }
 

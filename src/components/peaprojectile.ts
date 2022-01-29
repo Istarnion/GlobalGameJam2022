@@ -1,3 +1,4 @@
+import audio from "../audio";
 import { vec2Magnitude } from "../calc";
 import { Component, ComponentType } from "../component";
 import Entity from "../entity";
@@ -10,6 +11,7 @@ export default class PeaProjectile extends Component {
 
     constructor(entity: Entity) {
         super(entity, ComponentType.PEAPROJECTILE);
+        audio.play("pee");
     }
 
     override update(): void {
