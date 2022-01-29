@@ -15,7 +15,7 @@ export default class Recording {
 
     getNext(): FrameRecording {
         const frameRecording = this.recordings[this.currentIndex];
-        
+
         if (this.backwards) {
             this.currentIndex--;
             if (this.currentIndex == 0) {
