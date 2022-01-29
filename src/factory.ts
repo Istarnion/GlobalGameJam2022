@@ -11,11 +11,11 @@ import World from "./world";
 
 export function createPlayer(x: number, y: number, world: World): Entity {
     const player = world.addEntity(x, y);
-    const collider = player.add(new Collider(16, Mask.PLAYER, player));
+    const collider = player.add(new Collider(6, Mask.PLAYER, player));
     player.add(new Mover(64, player));
     const animator = player.add(new Animator(sprites['maincharacter'], 'stand weapon1', player));
     animator.xOffset = -16;
-    animator.yOffset = -16;
+    animator.yOffset = -21;
     player.add(new Player(player));
     return player;
 }
@@ -26,6 +26,7 @@ export function createPeaProjectile(x: number, y: number, angle: number, speed: 
     pea.dx = Math.cos(angle) * speed;
     pea.dy = Math.sin(angle) * speed;
     projectile.add(new Collider(2, mask, projectile));
+    projectile.add(new Hurtable(null, ~(Mask.PLAYER_PROJECTILE | Mask.ENEMY_PROJECTILE), projectile));
     return projectile;
 }
 
