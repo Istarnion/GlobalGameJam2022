@@ -14,6 +14,7 @@ import FadeOut from "./fadeout";
 import FadeIn from "./fadein";
 import gfx from "../graphics";
 import UpgradeArray from "../upgradearray";
+import Animator from "../components/animator";
 
 export default class BattleState extends GameState {
 
@@ -78,10 +79,12 @@ export default class BattleState extends GameState {
                 {
                     shadow.entity.position.x = shadow.startX + action.x;
                     shadow.entity.position.y = shadow.startY + action.y;
+
+                    shadow.chef.animationState = action.animationState;
                     shadow.entity.rotation = action.rotation;
 
                     if(action.shoot) {
-                        createPeaProjectile(shadow.entity.position.x, shadow.entity.position.y, shadow.entity.rotation, 128, Mask.ENEMY_PROJECTILE, this.world);
+                        shadow.chef.fire();
                     }
                 }
             }
@@ -94,6 +97,7 @@ export default class BattleState extends GameState {
         this.currentRecording.add(new FrameRecording(this.player.position.x,
                                                     this.player.position.y,
                                                     this.player.rotation,
+                                                    (this.player.first(ComponentType.ANIMATOR) as Animator).current,
                                                     (this.player.first(ComponentType.PLAYER) as Player).firedWeapon));
 
         if(this.world.all(ComponentType.ENEMY).length === 0) {

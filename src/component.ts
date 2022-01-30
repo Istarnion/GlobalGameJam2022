@@ -15,6 +15,7 @@ export enum ComponentType {
     PLAYER,
     UPGRADE,
     STATS,
+    CHEF,
     NUM_TYPES
 }
 

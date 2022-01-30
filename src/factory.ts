@@ -14,6 +14,8 @@ import { Mask } from "./masks";
 import UpgradeType from "./upgradetype";
 import World from "./world";
 import EntityStats from "./components/entitystats";
+import Chef from "./components/chef";
+import { ComponentType } from "./component";
 
 export function createPlayer(x: number, y: number, world: World): Entity {
     const player = world.addEntity(x, y);
@@ -23,7 +25,6 @@ export function createPlayer(x: number, y: number, world: World): Entity {
     const animator = player.add(new Animator(sprites['maincharacter'], 'stand weapon1', player));
     animator.xOffset = -16;
     animator.yOffset = -21;
-    const p = player.add(new Player(player));
 
     const onPlayerHurt = () => {
         if (entityStats.stats.shield > 0)
@@ -34,11 +35,13 @@ export function createPlayer(x: number, y: number, world: World): Entity {
         else
         {
             console.log('Dying');
-            p.dying = true;
+            p.chef.dying = true;
         }
     };
 
     player.add(new Hurtable(onPlayerHurt, Mask.ENEMY | Mask.ENEMY_PROJECTILE, player));
+    player.add(new Chef(Mask.PLAYER_PROJECTILE, player));
+    const p = player.add(new Player(player));
     return player;
 }
 
@@ -81,11 +84,25 @@ export function createShadowChef(x: number, y: number, world: World): Entity {
     const chef = world.addEntity(x, y);
     chef.rotation = TAU/2;
     chef.add(new Collider(6, Mask.ENEMY, chef));
+    const entityStats = chef.add(new EntityStats(chef));
     const animator = chef.add(new Animator(sprites['maincharactershadow'], 'stand weapon1', chef));
     animator.xOffset = -16;
     animator.yOffset = -21;
-    chef.add(new Hurtable(null, Mask.PLAYER_PROJECTILE, chef));
+
+    const onShadowHurt = () => {
+        if (entityStats.stats.shield > 0)
+        {
+            entityStats.stats.shield--;
+        }
+        else
+        {
+            (chef.first(ComponentType.CHEF) as Chef).dying = true;
+        }
+    };
+
+    chef.add(new Hurtable(onShadowHurt, Mask.PLAYER_PROJECTILE, chef));
     chef.add(new Enemy(chef));
+    chef.add(new Chef(Mask.ENEMY_PROJECTILE, chef));
     chef.add(new Shadow(chef));
     return chef;
 }
