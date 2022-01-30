@@ -5,9 +5,11 @@ export default class UpgradeType {
     name = "crate";
     animation = "stand";
     stats: Stats;
+    type: upgrades;
 
     constructor(type: upgrades, value: number) {
         this.stats = this.setStats(type, value);
+        this.type = type;
     }
 
     setStats(type: upgrades, value: number) : Stats

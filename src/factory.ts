@@ -17,12 +17,14 @@ import EntityStats from "./components/entitystats";
 import Chef from "./components/chef";
 import { ComponentType } from "./component";
 import audio from "./audio";
+import Stats from "./stats";
 
-export function createPlayer(x: number, y: number, world: World): Entity {
+export function createPlayer(x: number, y: number, stats: Stats, world: World): Entity {
     const player = world.addEntity(x, y);
     player.add(new Collider(6, Mask.PLAYER, player));
     player.add(new Mover(64, player));
     const entityStats = player.add(new EntityStats(player));
+    entityStats.stats = stats;
     const animator = player.add(new Animator(sprites['maincharacter'], 'stand weapon1', player));
     animator.xOffset = -16;
     animator.yOffset = -21;

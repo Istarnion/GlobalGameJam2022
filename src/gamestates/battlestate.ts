@@ -17,6 +17,8 @@ import UpgradeArray from "../upgradearray";
 import Animator from "../components/animator";
 import { time } from "../timer";
 import Chef from "../components/chef";
+import Stats from "../stats";
+import EntityStats from "../components/entitystats";
 
 export default class BattleState extends GameState {
 
@@ -29,11 +31,11 @@ export default class BattleState extends GameState {
     upgradeArray: UpgradeArray;
     timer = 60;
 
-    constructor(currentLevel: number, recordings: Array<Recording>) {
+    constructor(currentLevel: number, recordings: Array<Recording>, stats: Stats) {
         super();
 
         this.world = new World();
-        this.player = createPlayer(0, 0, this.world).first(ComponentType.PLAYER) as Player;
+        this.player = createPlayer(0, 0, stats, this.world).first(ComponentType.PLAYER) as Player;
         this.currentLevel = currentLevel;
         this.recordings = recordings;
         this.currentRecording = new Recording();
@@ -128,7 +130,7 @@ export default class BattleState extends GameState {
         this.recordings.push(this.currentRecording);
         game.pushState(new FadeOut(1, () => {
             game.popState();
-            game.pushState(new BattleState(++this.currentLevel, this.recordings));
+            game.pushState(new BattleState(++this.currentLevel, this.recordings, (this.player.entity.first(ComponentType.STATS) as EntityStats).stats));
             game.pushState(new FadeIn(1));
         }));
     }
