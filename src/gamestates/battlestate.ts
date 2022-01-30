@@ -30,6 +30,7 @@ export default class BattleState extends GameState {
     currentRecording: Recording;
     upgradeArray: UpgradeArray;
     timer = 60;
+    timeUntilNewUpgrade = 10;
 
     constructor(currentLevel: number, recordings: Array<Recording>, stats: Stats) {
         super();
@@ -66,7 +67,7 @@ export default class BattleState extends GameState {
             }
         }
 
-        createUpgrade(0, 32, this.upgradeArray.getRandomUpgrade(), this.world);
+        createUpgrade((Math.random() * 64) - 32, (Math.random() * 64) - 32, this.upgradeArray.getRandomUpgrade(), this.world);
 
         console.log(currentLevel);
     }
@@ -114,7 +115,14 @@ export default class BattleState extends GameState {
         if(this.world.all(ComponentType.ENEMY).length === 0) {
             this.onNewLevel();
         }
-        
+
+        this.timeUntilNewUpgrade -= time.deltaTime();
+        if (this.timeUntilNewUpgrade < 0)
+        {
+            this.timeUntilNewUpgrade = 10;
+            createUpgrade((Math.random() * 64) - 32, (Math.random() * 64) - 32, this.upgradeArray.getRandomUpgrade(), this.world);
+        }
+
         this.timer -= time.deltaTime();
         if (this.timer < 0)
             (this.player.entity.first(ComponentType.CHEF) as Chef).dying = true;
