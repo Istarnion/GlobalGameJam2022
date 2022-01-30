@@ -17,12 +17,14 @@ import EntityStats from "./components/entitystats";
 import Chef from "./components/chef";
 import { ComponentType } from "./component";
 import audio from "./audio";
+import Stats from "./stats";
 
-export function createPlayer(x: number, y: number, world: World): Entity {
+export function createPlayer(x: number, y: number, stats: Stats, world: World): Entity {
     const player = world.addEntity(x, y);
     player.add(new Collider(6, Mask.PLAYER, player));
     player.add(new Mover(64, player));
     const entityStats = player.add(new EntityStats(player));
+    entityStats.stats = stats;
     const animator = player.add(new Animator(sprites['maincharacter'], 'stand weapon1', player));
     animator.xOffset = -16;
     animator.yOffset = -21;
@@ -53,7 +55,7 @@ export function createPeaProjectile(x: number, y: number, angle: number, speed: 
     pea.dy = Math.sin(angle) * speed;
     projectile.add(new Collider(2, mask, projectile));
     const hurtableBy = mask === Mask.PLAYER_PROJECTILE ? (Mask.ENEMY | Mask.PLAYER) : Mask.PLAYER;
-    projectile.add(new Hurtable(null, Mask.PLAYER, projectile));
+    projectile.add(new Hurtable(null, hurtableBy, projectile));
     return projectile;
 }
 

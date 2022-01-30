@@ -4,6 +4,7 @@ import gfx from "../graphics";
 import input from "../input";
 import game from "..";
 import BattleState from "./battlestate";
+import Stats from "../stats";
 
 export default class MenuState extends GameState {
     starting = false;
@@ -16,7 +17,7 @@ export default class MenuState extends GameState {
     override update(): void {
         if(input.mouseIsJustPressed()) {
             this.starting = true;
-            game.pushState(new BattleState(0, []));
+            game.pushState(new BattleState(0, [], new Stats()));
             audio.fadeOut("menu", 500);
             audio.play("battle", 0.7);
         }  
