@@ -55,7 +55,7 @@ export function createPeaProjectile(x: number, y: number, angle: number, speed: 
     pea.dy = Math.sin(angle) * speed;
     projectile.add(new Collider(2, mask, projectile));
     const hurtableBy = mask === Mask.PLAYER_PROJECTILE ? (Mask.ENEMY | Mask.PLAYER) : Mask.PLAYER;
-    projectile.add(new Hurtable(null, Mask.PLAYER, projectile));
+    projectile.add(new Hurtable(null, hurtableBy, projectile));
     return projectile;
 }
 
