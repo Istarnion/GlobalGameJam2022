@@ -1,9 +1,10 @@
+import audio from "../audio";
 import { TAU } from "../calc";
 import { Component, ComponentType } from "../component";
 import Entity from "../entity";
 import { createPeaProjectile } from "../factory";
 import { Mask } from "../masks";
-import UpgradeType from "../upgradetype";
+import UpgradeType, { upgrades } from "../upgradetype";
 import World from "../world";
 import Animator from "./animator";
 import EntityStats from "./entitystats";
@@ -51,10 +52,19 @@ export default class Chef extends Component {
 
     takeUpgrade(upgradeType: UpgradeType): void {
         this.upgradeType = upgradeType;
+        this.playUpgradeSfx(upgradeType.type);
         const stats = this.entity.first(ComponentType.STATS) as EntityStats;
         stats.apply(upgradeType.stats);
     }
 
+    playUpgradeSfx(type: upgrades) {
+        switch(type) {
+            case upgrades.shield: {
+                audio.play("shield_up");
+            }
+        }
+    }
+    
     getUpgrade(): UpgradeType | undefined {
         if (this.upgradeType)
         {

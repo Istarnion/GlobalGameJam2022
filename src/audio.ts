@@ -10,6 +10,7 @@ class AudioManager {
         this.load('pee', './res/audio/sfx/pee.mp3', false);
         this.load('battle', './res/audio/music/battle.mp3', true);
         this.load('deaf', './res/audio/sfx/deaf.mp3', false);
+        this.load('shield_up', './res/audio/sfx/shield_up.mp3', false);
     }
 
     load(name: string, src: string | string[], loop: boolean, volume = 1): void {
