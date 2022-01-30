@@ -55,6 +55,17 @@ export default class Chef extends Component {
         stats.apply(upgradeType.stats);
     }
 
+    getUpgrade(): UpgradeType | undefined {
+        if (this.upgradeType)
+        {
+            const upgradeType = this.upgradeType;
+            this.upgradeType = undefined;
+            return upgradeType;
+        }
+
+        return undefined;
+    }
+
     override update(): void {
         if(!this.dying) {
             this.animator.play(this.animationState);

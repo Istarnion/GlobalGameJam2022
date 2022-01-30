@@ -15,6 +15,8 @@ import FadeIn from "./fadein";
 import gfx from "../graphics";
 import UpgradeArray from "../upgradearray";
 import Animator from "../components/animator";
+import { time } from "../timer";
+import Chef from "../components/chef";
 
 export default class BattleState extends GameState {
 
@@ -25,6 +27,7 @@ export default class BattleState extends GameState {
     shadows: Array<Array<Shadow>> = [];
     currentRecording: Recording;
     upgradeArray: UpgradeArray;
+    timer = 60;
 
     constructor(currentLevel: number, recordings: Array<Recording>) {
         super();
@@ -83,7 +86,7 @@ export default class BattleState extends GameState {
                     shadow.chef.animationState = action.animationState;
                     shadow.entity.rotation = action.rotation;
 
-                    if(action.upgrade) {
+                    if(this.recordings[i].firstPlayback && action.upgrade) {
                         shadow.chef.takeUpgrade(action.upgrade);
                     }
 
@@ -97,21 +100,27 @@ export default class BattleState extends GameState {
         this.world.update();
         this.world.cameraX = this.player.entity.position.x;
         this.world.cameraY = this.player.entity.position.y;
+        let upgradeType = this.player.chef.getUpgrade();
 
         this.currentRecording.add(new FrameRecording(this.player.entity.position.x,
                                                     this.player.entity.position.y,
                                                     this.player.entity.rotation,
                                                     this.player.animator.current,
-                                                    (this.player.chef.upgradeType ? this.player.chef.upgradeType : null),
+                                                    (upgradeType ? upgradeType : null),
                                                     this.player.firedWeapon));
 
         if(this.world.all(ComponentType.ENEMY).length === 0) {
             this.onNewLevel();
         }
+        
+        this.timer -= time.deltaTime();
+        if (this.timer < 0)
+            (this.player.entity.first(ComponentType.CHEF) as Chef).dying = true;
     }
 
     override draw(): void {
-        gfx.clear("black");
+        gfx.fillStyle = "white"
+        gfx.fillText(Math.max(Math.floor(this.timer), 0).toString(), gfx.width/10,  gfx.height/10)
         this.world.render();
     }
 

@@ -29,13 +29,9 @@ export function createPlayer(x: number, y: number, world: World): Entity {
 
     const onPlayerHurt = () => {
         if (entityStats.stats.shield > 0)
-        {
-            console.log('Shield: ' + entityStats.stats.shield);
             entityStats.stats.shield--;
-        }
         else
         {
-            console.log('Dying');
             if (!p.chef.dying)
                 audio.play('deaf');
             p.chef.dying = true;
@@ -94,20 +90,18 @@ export function createShadowChef(x: number, y: number, world: World): Entity {
 
     const onShadowHurt = () => {
         if (entityStats.stats.shield > 0)
-        {
             entityStats.stats.shield--;
-        }
         else
         {
-            if(!(chef.first(ComponentType.CHEF) as Chef).dying)
+            if(!c.dying)
                 audio.play("deaf");
-            (chef.first(ComponentType.CHEF) as Chef).dying = true;
+            c.dying = true;
         }
     };
 
     chef.add(new Hurtable(onShadowHurt, Mask.PLAYER_PROJECTILE, chef));
     chef.add(new Enemy(chef));
-    chef.add(new Chef(Mask.ENEMY_PROJECTILE, chef));
+    const c = chef.add(new Chef(Mask.ENEMY_PROJECTILE, chef));
     chef.add(new Shadow(chef));
     return chef;
 }
