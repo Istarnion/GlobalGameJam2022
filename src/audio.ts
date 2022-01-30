@@ -24,10 +24,8 @@ class AudioManager {
 
     play(name: string, volume = 1): void {
         const clip = this.clips[name];
-        if(!clip.playing()) {
-            clip.volume(volume);
-            this.clips[name].play();
-        }
+        clip.volume(volume);
+        this.clips[name].play();
     }
 
 

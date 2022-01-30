@@ -36,8 +36,9 @@ export function createPlayer(x: number, y: number, world: World): Entity {
         else
         {
             console.log('Dying');
+            if (!p.chef.dying)
+                audio.play('deaf');
             p.chef.dying = true;
-            audio.play('deaf');
         }
     };
 
@@ -98,7 +99,8 @@ export function createShadowChef(x: number, y: number, world: World): Entity {
         }
         else
         {
-            audio.play("deaf");
+            if(!(chef.first(ComponentType.CHEF) as Chef).dying)
+                audio.play("deaf");
             (chef.first(ComponentType.CHEF) as Chef).dying = true;
         }
     };
