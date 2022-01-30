@@ -100,12 +100,13 @@ export default class BattleState extends GameState {
         this.world.update();
         this.world.cameraX = this.player.entity.position.x;
         this.world.cameraY = this.player.entity.position.y;
+        let upgradeType = this.player.chef.getUpgrade();
 
         this.currentRecording.add(new FrameRecording(this.player.entity.position.x,
                                                     this.player.entity.position.y,
                                                     this.player.entity.rotation,
                                                     this.player.animator.current,
-                                                    (this.player.chef.upgradeType ? this.player.chef.upgradeType : null),
+                                                    (upgradeType ? upgradeType : null),
                                                     this.player.firedWeapon));
 
         if(this.world.all(ComponentType.ENEMY).length === 0) {

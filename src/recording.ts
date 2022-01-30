@@ -4,6 +4,7 @@ export default class Recording {
     recordings: Array<FrameRecording> = [];
     currentIndex = 0;
     backwards = false;
+    firstPlayback = true;
 
     add(frameRecording: FrameRecording) {
         if (this.recordings.length < 3600)
@@ -26,6 +27,7 @@ export default class Recording {
         else {
             this.currentIndex++;
             if (this.currentIndex == this.recordings.length - 1) {
+                this.firstPlayback = false;
                 this.backwards = true;
             }
         }
