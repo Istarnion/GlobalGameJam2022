@@ -16,6 +16,7 @@ import World from "./world";
 import EntityStats from "./components/entitystats";
 import Chef from "./components/chef";
 import { ComponentType } from "./component";
+import audio from "./audio";
 
 export function createPlayer(x: number, y: number, world: World): Entity {
     const player = world.addEntity(x, y);
@@ -36,6 +37,7 @@ export function createPlayer(x: number, y: number, world: World): Entity {
         {
             console.log('Dying');
             p.chef.dying = true;
+            audio.play('deaf');
         }
     };
 
@@ -96,6 +98,7 @@ export function createShadowChef(x: number, y: number, world: World): Entity {
         }
         else
         {
+            audio.play("deaf");
             (chef.first(ComponentType.CHEF) as Chef).dying = true;
         }
     };
