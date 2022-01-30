@@ -2,33 +2,29 @@ import { Component, ComponentType } from "../component";
 import Entity from "../entity";
 import { Mask } from "../masks";
 import Stats from "../stats";
+import UpgradeType from "../upgradetype";
 import Animator from "./animator";
 import Collider from "./collider";
 import EntityStats from "./entitystats";
+import Player from "./player";
 
 
 export default class Upgrade extends Component {
-    animator: Animator;
     collider: Collider;
-    entityStats: EntityStats;
+    upgradeType: UpgradeType;
 
-    constructor(entity: Entity, stats: Stats) {
+    constructor(upgradeType: UpgradeType, entity: Entity) {
         super(entity, ComponentType.UPGRADE);
-        this.animator = this.entity.first(ComponentType.ANIMATOR) as Animator;
         this.collider = this.entity.first(ComponentType.COLLIDER) as Collider;
-        this.entityStats = this.entity.first(ComponentType.STATS) as EntityStats;
-        this.entityStats.stats = stats;
+        this.upgradeType = upgradeType;
     }
 
     override update(): void {
         if (this.collider.collidesAt(Mask.PLAYER, 0, 0))
         {
-            this.apply(this.world.first(ComponentType.PLAYER)?.entity.first(ComponentType.STATS) as EntityStats);
+            const player = this.world.first(ComponentType.PLAYER) as Player;
+            player.chef.takeUpgrade(this.upgradeType);
             this.world.destroyEntity(this.entity);
         }
-    }
-
-    apply(entityStats: EntityStats) {
-        entityStats.apply(this.entityStats);
     }
 }

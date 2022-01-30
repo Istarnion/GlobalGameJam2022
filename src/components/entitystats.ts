@@ -13,19 +13,19 @@ export default class EntityStats extends Component {
         this.stats = new Stats();
     }
 
-    apply(entityStats: EntityStats) {
-        this.stats.shield += entityStats.stats.shield;
-        this.stats.speedModifier *= entityStats.stats.speedModifier;
-        this.stats.projectileSpeedModifier *= entityStats.stats.projectileSpeedModifier;
-        this.stats.damageModifer *= entityStats.stats.damageModifer;
-        this.stats.slowOnHit += entityStats.stats.slowOnHit;
-        this.stats.stunChance += entityStats.stats.stunChance;
-        this.stats.invulnerabilityTime += entityStats.stats.invulnerabilityTime;
-        this.stats.weaponSpreadModifier *= entityStats.stats.weaponSpreadModifier;
-        this.stats.weaponCooldownModifier *= entityStats.stats.weaponCooldownModifier;
-        this.stats.explosionDelay += entityStats.stats.explosionDelay;
-        this.stats.doubleShotChance += entityStats.stats.doubleShotChance;
-        this.stats.explosionRangeModifier *= entityStats.stats.explosionRangeModifier;
+    apply(stats: Stats) {
+        this.stats.shield += stats.shield;
+        this.stats.speedModifier *= stats.speedModifier;
+        this.stats.projectileSpeedModifier *= stats.projectileSpeedModifier;
+        this.stats.damageModifer *= stats.damageModifer;
+        this.stats.slowOnHit += stats.slowOnHit;
+        this.stats.stunChance += stats.stunChance;
+        this.stats.invulnerabilityTime += stats.invulnerabilityTime;
+        this.stats.weaponSpreadModifier *= stats.weaponSpreadModifier;
+        this.stats.weaponCooldownModifier *= stats.weaponCooldownModifier;
+        this.stats.explosionDelay += stats.explosionDelay;
+        this.stats.doubleShotChance += stats.doubleShotChance;
+        this.stats.explosionRangeModifier *= stats.explosionRangeModifier;
 
         this.onApply();
     }
@@ -35,8 +35,7 @@ export default class EntityStats extends Component {
     }
     
     override render(): void {
-        if (this.stats.shield > 0 && !this.entity.first(ComponentType.UPGRADE))
-        {
+        if (this.stats.shield > 0) {
             gfx.strokeStyle = "blue";
             gfx.drawCircle(this.entity.position.x, this.entity.position.y, 8);
         }

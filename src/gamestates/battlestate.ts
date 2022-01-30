@@ -19,7 +19,7 @@ import Animator from "../components/animator";
 export default class BattleState extends GameState {
 
     world: World;
-    player: Entity;
+    player: Player;
     currentLevel = 0;
     recordings: Array<Recording> = [];
     shadows: Array<Array<Shadow>> = [];
@@ -30,7 +30,7 @@ export default class BattleState extends GameState {
         super();
 
         this.world = new World();
-        this.player = createPlayer(0, 0, this.world);
+        this.player = createPlayer(0, 0, this.world).first(ComponentType.PLAYER) as Player;
         this.currentLevel = currentLevel;
         this.recordings = recordings;
         this.currentRecording = new Recording();
@@ -67,7 +67,7 @@ export default class BattleState extends GameState {
     }
 
     override update(): void {
-        if(!this.player.active) {
+        if(!this.player.entity.active) {
             game.popState();
             return;
         }
@@ -83,6 +83,10 @@ export default class BattleState extends GameState {
                     shadow.chef.animationState = action.animationState;
                     shadow.entity.rotation = action.rotation;
 
+                    if(action.upgrade) {
+                        shadow.chef.takeUpgrade(action.upgrade);
+                    }
+
                     if(action.shoot) {
                         shadow.chef.fire();
                     }
@@ -91,14 +95,15 @@ export default class BattleState extends GameState {
         }
 
         this.world.update();
-        this.world.cameraX = this.player.position.x;
-        this.world.cameraY = this.player.position.y;
+        this.world.cameraX = this.player.entity.position.x;
+        this.world.cameraY = this.player.entity.position.y;
 
-        this.currentRecording.add(new FrameRecording(this.player.position.x,
-                                                    this.player.position.y,
-                                                    this.player.rotation,
-                                                    (this.player.first(ComponentType.ANIMATOR) as Animator).current,
-                                                    (this.player.first(ComponentType.PLAYER) as Player).firedWeapon));
+        this.currentRecording.add(new FrameRecording(this.player.entity.position.x,
+                                                    this.player.entity.position.y,
+                                                    this.player.entity.rotation,
+                                                    this.player.animator.current,
+                                                    (this.player.chef.upgradeType ? this.player.chef.upgradeType : null),
+                                                    this.player.firedWeapon));
 
         if(this.world.all(ComponentType.ENEMY).length === 0) {
             this.onNewLevel();

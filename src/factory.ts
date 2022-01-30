@@ -73,8 +73,8 @@ export function createUpgrade(x: number, y:number, upgradeType: UpgradeType, wor
     const pickup = world.addEntity(x, y);
     pickup.add(new EntityStats(pickup));
     const animator = pickup.add(new Animator(sprites[upgradeType.name], upgradeType.animation, pickup));
-    const collider = pickup.add(new Collider(8, Mask.UPGRADE, pickup));x
-    const upgrade = pickup.add(new Upgrade(pickup, upgradeType.stats));
+    pickup.add(new Collider(8, Mask.UPGRADE, pickup));x
+    pickup.add(new Upgrade(upgradeType, pickup));
     animator.xOffset = -8;
     animator.yOffset = -8;
     return pickup;

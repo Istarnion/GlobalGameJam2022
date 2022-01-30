@@ -3,8 +3,10 @@ import { Component, ComponentType } from "../component";
 import Entity from "../entity";
 import { createPeaProjectile } from "../factory";
 import { Mask } from "../masks";
+import UpgradeType from "../upgradetype";
 import World from "../world";
 import Animator from "./animator";
+import EntityStats from "./entitystats";
 
 interface Weapon {
     world: World;
@@ -33,6 +35,7 @@ export default class Chef extends Component {
     dying = false;
     animationState: string;
     projectileMask: Mask;
+    upgradeType?: UpgradeType;
 
     constructor(projectileMask: Mask, entity: Entity) {
         super(entity, ComponentType.CHEF);
@@ -44,6 +47,12 @@ export default class Chef extends Component {
 
     fire(): void {
         this.weapon.fire(this.entity.position.x, this.entity.position.y, this.entity.rotation, this.projectileMask);
+    }
+
+    takeUpgrade(upgradeType: UpgradeType): void {
+        this.upgradeType = upgradeType;
+        const stats = this.entity.first(ComponentType.STATS) as EntityStats;
+        stats.apply(upgradeType.stats);
     }
 
     override update(): void {
