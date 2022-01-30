@@ -47,7 +47,7 @@ export function createPlayer(x: number, y: number, world: World): Entity {
 
 export function createPeaProjectile(x: number, y: number, angle: number, speed: number, mask: Mask, world: World): Entity {
     const projectile = world.addEntity(x, y);
-    const projectileColor = mask === Mask.PLAYER_PROJECTILE ? 'lime' : '#73339D';
+    const projectileColor = mask === Mask.PLAYER_PROJECTILE ? 'lime' : '#bc90da';
     const pea = projectile.add(new PeaProjectile(projectileColor, projectile));
     angle -= TAU / 4;
     pea.dx = Math.cos(angle) * speed;
