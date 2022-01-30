@@ -16,7 +16,9 @@ export default class EntityStats extends Component {
     apply(stats: Stats) {
         this.stats.shield += stats.shield;
         this.stats.speedModifier *= stats.speedModifier;
+        this.stats.speedModifier = Math.min(this.stats.speedModifier, 2);
         this.stats.projectileSpeedModifier *= stats.projectileSpeedModifier;
+        this.stats.projectileSpeedModifier = Math.min(this.stats.projectileSpeedModifier, 5);
         this.stats.damageModifer *= stats.damageModifer;
         this.stats.slowOnHit += stats.slowOnHit;
         this.stats.stunChance += stats.stunChance;
