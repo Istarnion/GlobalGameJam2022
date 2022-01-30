@@ -11,7 +11,7 @@ import EntityStats from "./entitystats";
 interface Weapon {
     world: World;
     cooldown: number;
-    fire(x: number, y: number, heading: number, projectileMask: Mask): void;
+    fire(x: number, y: number, heading: number, speedModifier: number, projectileMask: Mask): void;
 }
 
 class PeaShooter implements Weapon {
@@ -22,10 +22,10 @@ class PeaShooter implements Weapon {
         this.world = world;
     }
 
-    fire(x: number, y: number, heading: number, projectileMask: Mask): void {
+    fire(x: number, y: number, heading: number, speedModifier: number, projectileMask: Mask): void {
         x += Math.cos(heading-TAU/4) * 8;
         y += Math.sin(heading-TAU/4) * 8;
-        createPeaProjectile(x, y, heading, 128, projectileMask, this.world);
+        createPeaProjectile(x, y, heading, 128 * speedModifier, projectileMask, this.world);
     }
 }
 
@@ -36,6 +36,7 @@ export default class Chef extends Component {
     animationState: string;
     projectileMask: Mask;
     upgradeType?: UpgradeType;
+    entityStats: EntityStats;
 
     constructor(projectileMask: Mask, entity: Entity) {
         super(entity, ComponentType.CHEF);
@@ -43,10 +44,11 @@ export default class Chef extends Component {
         this.animator = this.entity.first(ComponentType.ANIMATOR) as Animator;
         this.weapon = new PeaShooter(this.world);
         this.animationState = 'stand weapon1';
+        this.entityStats = this.entity.first(ComponentType.STATS) as EntityStats;
     }
 
     fire(): void {
-        this.weapon.fire(this.entity.position.x, this.entity.position.y, this.entity.rotation, this.projectileMask);
+        this.weapon.fire(this.entity.position.x, this.entity.position.y, this.entity.rotation, this.entityStats.stats.projectileSpeedModifier, this.projectileMask);
     }
 
     takeUpgrade(upgradeType: UpgradeType): void {
